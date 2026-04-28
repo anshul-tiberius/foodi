@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Savor — Delicious is the whole point.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+* { -webkit-tap-highlight-color: transparent; }
+button, input, select, textarea { font-family: inherit; }
+
+:root {
+  --forest: #1e2d1f;
+  --forest-mid: #2f4a31;
+  --forest-light: #4a7c59;
+  --sage: #7aaa8a;
+  --sage-pale: #e8f0ea;
+  --cream: #faf6ef;
+  --cream-dark: #f2ece0;
+  --cream-deeper: #e8dfc8;
+  --terracotta: #c05a3a;
+  --terracotta-light: #f5ece6;
+  --gold: #c8913a;
+  --gold-pale: #fdf4e3;
+  --ink: #1a1810;
+  --ink-mid: #3a3828;
+  --ink-muted: #7a7660;
+  --white: #ffffff;
+  --border: rgba(26,24,16,0.1);
+  --border-dark: rgba(26,24,16,0.18);
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--forest-light); }
+
+/* ══ GRAIN OVERLAY ══ */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; opacity: 0.7;
+}
+
+/* ══ NAV ══ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  padding: 24px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.4s;
+}
+.nav.scrolled {
+  padding: 16px 48px;
+  background: rgba(250,246,239,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-mark {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--sage);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+  transition: background 0.4s;
+}
+.nav.scrolled .nav-logo-mark { background: var(--forest); }
+.nav-logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 600;
+  color: var(--white);
+  letter-spacing: -0.5px;
+  transition: color 0.4s;
+}
+.nav.scrolled .nav-logo-text { color: var(--ink); }
+.nav-right { display: flex; align-items: center; gap: 36px; }
+.nav-link {
+  font-size: 13px; font-weight: 400;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none; letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--white); }
+.nav.scrolled .nav-link { color: var(--ink-muted); }
+.nav.scrolled .nav-link:hover { color: var(--ink); }
+.nav-btn {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: var(--white);
+  padding: 10px 24px; border-radius: 2px;
+  font-size: 12px; font-weight: 500; letter-spacing: 1px;
+  text-transform: uppercase; cursor: pointer;
+  transition: all 0.3s; text-decoration: none;
+  display: inline-block;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.4); }
+.nav.scrolled .nav-btn { background: var(--forest); border-color: var(--forest); color: var(--white); }
+.nav.scrolled .nav-btn:hover { background: var(--forest-mid); }
+@media (max-width: 680px) {
+  .nav { padding: 20px 24px; }
+  .nav.scrolled { padding: 14px 24px; }
+  .nav-link { display: none; }
+  .nav-btn { padding: 9px 18px; font-size: 11px; }
+}
+
+/* ══ HERO ══ */
+.hero {
+  min-height: 100vh;
+  background: var(--forest);
+  position: relative; overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 100px; }
+}
+
+/* Warm texture background */
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 70% at 80% 50%, rgba(74,124,89,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(192,90,58,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% -10%, rgba(200,145,58,0.08) 0%, transparent 50%);
+}
+.hero-bg-lines {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 60px,
+    rgba(255,255,255,0.015) 60px,
+    rgba(255,255,255,0.015) 61px
+  );
+}
+
+.hero-left {
+  padding: 140px 64px 100px;
+  position: relative; z-index: 2;
+}
+@media (max-width: 900px) { .hero-left { padding: 40px 28px 48px; } }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(122,170,138,0.35);
+  padding: 7px 16px; margin-bottom: 36px;
+  font-size: 10px; font-weight: 500; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--sage);
+}
+.hero-badge-dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--sage);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+.hero-h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 7vw, 100px);
+  font-weight: 600; line-height: 0.95;
+  color: var(--white); letter-spacing: -2px;
+  margin-bottom: 8px;
+}
+.hero-h1-italic {
+  font-style: italic; color: var(--sage);
+  display: block; font-weight: 300;
+}
+.hero-h1-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: rgba(255,255,255,0.4); margin-bottom: 40px;
+  letter-spacing: 0.5px; line-height: 1.5;
+  display: block; margin-top: 16px;
+}
+
+.hero-desc {
+  font-size: 16px; color: rgba(255,255,255,0.45);
+  line-height: 1.8; font-weight: 300; max-width: 400px;
+  margin-bottom: 48px;
+}
+
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-forest-primary {
+  background: var(--sage); color: var(--forest);
+  padding: 15px 32px; border-radius: 2px;
+  font-size: 12px; font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase; border: none; cursor: pointer;
+  transition: all 0.2s; text-decoration: none; display: inline-block;
+}
+.btn-forest-primary:hover { background: #8fc09f; transform: translateY(-1px); }
+.btn-forest-ghost {
+  background: transparent; color: rgba(255,255,255,0.55);
+  padding: 15px 32px; border-radius: 2px;
+  font-size: 12px; font-weight: 400; letter-spacing: 1.5px;
+  text-transform: uppercase; border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block;
+}
+.btn-forest-ghost:hover { border-color: rgba(255,255,255,0.35); color: var(--white); }
+
+.hero-proof {
+  margin-top: 56px; padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; gap: 40px; flex-wrap: wrap;
+}
+.hero-proof-stat { }
+.hps-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 600; color: var(--white);
+  display: block; letter-spacing: -1px;
+}
+.hps-lbl { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; margin-top: 2px; }
+
+/* Hero right — visual panel */
+.hero-right {
+  height: 100vh; position: relative; overflow: hidden;
+  background: rgba(0,0,0,0.15);
+  border-left: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 900px) { .hero-right { display: none; } }
+
+.hero-food-grid {
+  position: absolute; inset: 0;
+  display: grid; grid-template-rows: 1fr 1fr 1fr;
+  gap: 1px;
+}
+.hfg-row { display: grid; gap: 1px; }
+.hfg-row:nth-child(1) { grid-template-columns: 3fr 2fr; }
+.hfg-row:nth-child(2) { grid-template-columns: 2fr 3fr; }
+.hfg-row:nth-child(3) { grid-template-columns: 1fr 1fr 1fr; }
+.hfg-cell {
+  position: relative; overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px;
+  transition: transform 0.5s ease;
+}
+.hfg-cell:hover { transform: scale(1.03); }
+.hfg-cell-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(30,45,31,0.3) 0%, transparent 60%);
+}
+.hfg-cell-label {
+  position: absolute; bottom: 12px; left: 14px;
+  font-size: 11px; font-weight: 400; letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.5); text-transform: uppercase;
+}
+.hfg-cell-tag {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(122,170,138,0.25); border: 1px solid rgba(122,170,138,0.3);
+  color: var(--sage); font-size: 9px; font-weight: 500; letter-spacing: 1px;
+  padding: 3px 8px; text-transform: uppercase;
+}
+/* Food emoji backgrounds */
+.hfg-1 { background: linear-gradient(135deg, #1a2e20 0%, #2d4a2f 100%); }
+.hfg-2 { background: linear-gradient(135deg, #2a1e12 0%, #3d2c1a 100%); }
+.hfg-3 { background: linear-gradient(135deg, #1e2a2a 0%, #2a3d3a 100%); }
+.hfg-4 { background: linear-gradient(135deg, #2a2012 0%, #3d3020 100%); }
+.hfg-5 { background: linear-gradient(135deg, #1e1e2a 0%, #2d2a3d 100%); }
+.hfg-6 { background: linear-gradient(135deg, #1a2a1e 0%, #2a3d2c 100%); }
+.hfg-7 { background: linear-gradient(135deg, #2a1a1a 0%, #3d2828 100%); }
+.hfg-8 { background: linear-gradient(135deg, #1e2a1e 0%, #2d3d2a 100%); }
+
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(-50%); z-index: 3;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.25); font-size: 9px; letter-spacing: 3px;
+  text-transform: uppercase;
+  animation: scrollFloat 2.5s ease-in-out infinite;
+}
+@keyframes scrollFloat { 0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)} }
+.hero-scroll-bar {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.25), transparent);
+}
+
+/* ══ SECTION SHARED ══ */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+.eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--forest-light);
+  display: block; margin-bottom: 14px;
+}
+.display-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600; line-height: 1.0; letter-spacing: -1.5px;
+}
+.display-headline em { font-style: italic; color: var(--forest-light); font-weight: 300; }
+.body-text {
+  font-size: 16px; color: var(--ink-muted);
+  line-height: 1.85; font-weight: 300;
+}
+
+/* ══ DIVIDER ══ */
+.ornament-divider {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; padding: 16px 0;
+}
+.odiv-line { flex: 1; height: 1px; background: var(--border); max-width: 200px; }
+.odiv-leaf { font-size: 14px; color: var(--forest-light); }
+
+/* ══ EDITORIAL STATEMENT ══ */
+.statement-section {
+  background: var(--cream-dark);
+  padding: 100px 48px;
+  position: relative; overflow: hidden;
+}
+.statement-section::before {
+  content: '"';
+  position: absolute; top: -20px; left: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 320px; line-height: 1; font-weight: 300;
+  color: rgba(30,45,31,0.04); pointer-events: none;
+  user-select: none;
+}
+.statement-inner { max-width: 900px; margin: 0 auto; }
+.statement-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 4vw, 46px);
+  font-weight: 400; font-style: italic;
+  line-height: 1.3; color: var(--ink-mid);
+  margin-bottom: 24px;
+}
+.statement-quote strong {
+  font-style: normal; font-weight: 600; color: var(--forest);
+}
+.statement-attribution {
+  font-size: 12px; color: var(--ink-muted); letter-spacing: 1px;
+  text-transform: uppercase; font-weight: 400;
+}
+.statement-resolve {
+  margin-top: 48px; padding-top: 48px;
+  border-top: 1px solid var(--border-dark);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 500; color: var(--ink); line-height: 1.4;
+}
+.statement-resolve em { font-style: italic; color: var(--forest-light); }
+
+/* ══ THREE PILLARS ══ */
+.pillars-section {
+  background: var(--forest);
+  padding: 100px 0;
+  position: relative; overflow: hidden;
+}
+.pillars-section::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(122,170,138,0.3), transparent);
+}
+.pillars-header {
+  padding: 0 48px; margin-bottom: 64px; text-align: center;
+}
+.pillars-eyebrow { color: var(--sage); }
+.pillars-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 64px); font-weight: 600;
+  color: var(--white); letter-spacing: -1.5px; line-height: 1.0;
+}
+.pillars-h2 em { font-style: italic; color: var(--sage); font-weight: 300; }
+
+.pillars-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 760px) { .pillars-grid { grid-template-columns: 1fr; } }
+
+.pillar {
+  padding: 56px 48px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  position: relative; overflow: hidden;
+  transition: background 0.4s;
+}
+.pillar:last-child { border-right: none; }
+.pillar:hover { background: rgba(255,255,255,0.03); }
+@media (max-width: 760px) {
+  .pillar { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+}
+
+.pillar-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 100px; font-weight: 300;
+  color: rgba(255,255,255,0.04);
+  position: absolute; top: -10px; right: 24px;
+  line-height: 1; user-select: none;
+}
+.pillar-icon-wrap {
+  width: 52px; height: 52px;
+  border: 1px solid rgba(122,170,138,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 28px;
+}
+.pillar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 600; color: var(--white);
+  line-height: 1.2; margin-bottom: 14px;
+}
+.pillar-body {
+  font-size: 14px; color: rgba(255,255,255,0.4);
+  line-height: 1.8; font-weight: 300;
+}
+.pillar-features {
+  margin-top: 28px; display: flex; flex-direction: column; gap: 10px;
+}
+.pf-item {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 12px; color: rgba(255,255,255,0.3);
+  padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);
+}
+.pf-item:first-child { border-top: none; padding-top: 0; }
+.pf-dot { color: var(--sage); font-size: 14px; margin-top: -1px; flex-shrink: 0; }
+
+/* ══ PANTRY ONBOARDING SECTION ══ */
+.pantry-section {
+  padding: 100px 48px;
+  background: var(--cream);
+  position: relative;
+}
+@media (max-width: 700px) { .pantry-section { padding: 80px 24px; } }
+
+.pantry-inner { max-width: 1100px; margin: 0 auto; }
+.pantry-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+@media (max-width: 860px) { .pantry-layout { grid-template-columns: 1fr; gap: 48px; } }
+
+/* The onboarding mockup */
+.pantry-mockup {
+  background: var(--white);
+  border: 1px solid var(--border-dark);
+  border-radius: 4px; overflow: hidden;
+  box-shadow: 0 24px 80px rgba(30,45,31,0.1);
+}
+.pm-header {
+  background: var(--forest); padding: 20px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pm-header-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--white); font-weight: 500;
+}
+.pm-step-badge {
+  font-size: 10px; color: var(--sage); letter-spacing: 1px;
+  text-transform: uppercase; font-weight: 500;
+}
+.pm-body { padding: 28px 24px; }
+.pm-question {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 500; color: var(--ink);
+  margin-bottom: 6px;
+}
+.pm-hint { font-size: 12px; color: var(--ink-muted); margin-bottom: 20px; }
+
+.pm-category-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--forest-light);
+  margin-bottom: 10px; margin-top: 18px;
+}
+.pm-category-label:first-of-type { margin-top: 0; }
+
+.pm-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 4px; }
+.pm-chip {
+  padding: 7px 14px; border-radius: 2px;
+  font-size: 12px; font-weight: 400; cursor: pointer;
+  border: 1px solid var(--border-dark);
+  background: var(--cream); color: var(--ink-mid);
+  transition: all 0.15s; user-select: none;
+  display: flex; align-items: center; gap: 5px;
+}
+.pm-chip.selected {
+  background: var(--forest); color: var(--white);
+  border-color: var(--forest);
+}
+.pm-chip:hover:not(.selected) { border-color: var(--forest-light); color: var(--forest); }
+.pm-chip-icon { font-size: 14px; }
+
+.pm-footer {
+  padding: 16px 24px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--border);
+}
+.pm-progress {
+  display: flex; gap: 5px;
+}
+.pm-prog-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border-dark); transition: background 0.2s;
+}
+.pm-prog-dot.active { background: var(--forest-light); }
+.pm-prog-dot.done { background: var(--forest); }
+.pm-next-btn {
+  background: var(--forest); color: var(--white);
+  padding: 10px 22px; border-radius: 2px;
+  font-size: 11px; font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase; border: none; cursor: pointer;
+  transition: background 0.2s;
+}
+.pm-next-btn:hover { background: var(--forest-mid); }
+
+.pantry-text-side { }
+.pantry-steps { margin-top: 36px; display: flex; flex-direction: column; gap: 0; }
+.pantry-step {
+  display: flex; gap: 20px; align-items: flex-start;
+  padding: 20px 0; border-bottom: 1px solid var(--border);
+}
+.pantry-step:first-child { border-top: 1px solid var(--border); }
+.ps-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px; font-weight: 300; color: var(--cream-deeper);
+  line-height: 1; flex-shrink: 0; width: 32px; text-align: center;
+}
+.ps-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+.ps-body { font-size: 13px; color: var(--ink-muted); line-height: 1.6; font-weight: 300; }
+
+/* ══ HOW IT WORKS ══ */
+.how-section {
+  padding: 100px 48px;
+  background: var(--cream-dark);
+}
+@media (max-width: 700px) { .how-section { padding: 80px 24px; } }
+.how-inner { max-width: 1100px; margin: 0 auto; }
+.how-header { margin-bottom: 72px; }
+.how-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 48px; }
+@media (max-width: 760px) { .how-steps { grid-template-columns: 1fr; gap: 32px; } }
+.how-step { position: relative; }
+.how-step::after {
+  content: '→';
+  position: absolute; top: 28px; right: -28px;
+  color: var(--border-dark); font-size: 18px;
+}
+.how-step:last-child::after { display: none; }
+@media (max-width: 760px) { .how-step::after { display: none; } }
+.hs-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px; font-weight: 300; color: var(--cream-deeper);
+  line-height: 1; margin-bottom: 16px; display: block;
+}
+.hs-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 600; color: var(--ink);
+  margin-bottom: 10px; line-height: 1.2;
+}
+.hs-body { font-size: 14px; color: var(--ink-muted); line-height: 1.8; font-weight: 300; }
+.hs-note {
+  margin-top: 14px; font-size: 12px; color: var(--forest-light);
+  font-weight: 500; display: flex; align-items: center; gap: 6px;
+}
+
+/* ══ FOR EVERYONE ══ */
+.everyone-section { padding: 0; overflow: hidden; }
+.everyone-grid { display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width: 700px) { .everyone-grid { grid-template-columns: 1fr; } }
+.ec-panel { padding: 80px 60px; position: relative; min-height: 480px; }
+@media (max-width: 900px) { .ec-panel { padding: 60px 32px; min-height: auto; } }
+.ec-panel-self { background: var(--forest); }
+.ec-panel-home { background: var(--cream-deeper); }
+.ec-panel-self .ec-title { color: var(--white); }
+.ec-panel-self .ec-body { color: rgba(255,255,255,0.45); }
+.ec-panel-self .ec-list-item { color: rgba(255,255,255,0.5); }
+.ec-panel-self .ec-check { color: var(--sage); }
+.ec-panel-home .ec-title { color: var(--ink); }
+.ec-panel-home .ec-body { color: var(--ink-muted); }
+.ec-big-icon { font-size: 56px; margin-bottom: 24px; display: block; }
+.ec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 600; line-height: 1.2; margin-bottom: 14px;
+}
+.ec-body { font-size: 14px; line-height: 1.8; font-weight: 300; margin-bottom: 24px; }
+.ec-list { display: flex; flex-direction: column; gap: 10px; }
+.ec-list-item { display: flex; gap: 10px; font-size: 13px; line-height: 1.5; }
+.ec-check { font-size: 12px; margin-top: 2px; flex-shrink: 0; }
+.ec-panel-home .ec-check { color: var(--forest-light); }
+
+/* ══ CREATOR SECTION ══ */
+.creator-section {
+  padding: 100px 48px;
+  background: var(--cream);
+}
+@media (max-width: 700px) { .creator-section { padding: 80px 24px; } }
+.creator-inner { max-width: 1100px; margin: 0 auto; }
+.creator-layout { display: grid; grid-template-columns: 5fr 6fr; gap: 80px; align-items: start; }
+@media (max-width: 860px) { .creator-layout { grid-template-columns: 1fr; gap: 48px; } }
+.creator-credo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(20px, 3vw, 30px); font-weight: 400; font-style: italic;
+  color: var(--ink-mid); line-height: 1.45;
+  border-left: 3px solid var(--forest-light); padding-left: 24px;
+  margin: 28px 0 32px;
+}
+.creator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.creator-card {
+  background: var(--white); padding: 20px;
+  display: flex; align-items: center; gap: 14px;
+  transition: background 0.2s;
+}
+.creator-card:hover { background: var(--sage-pale); }
+.cc-avatar {
+  width: 44px; height: 44px; border-radius: 2px;
+  background: var(--cream-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.cc-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.cc-subs { font-size: 11px; color: var(--ink-muted); }
+.cc-type { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--forest-light); font-weight: 500; margin-top: 3px; }
+.creator-note {
+  margin-top: 1px; padding: 18px 20px;
+  background: var(--sage-pale); border: 1px solid rgba(74,124,89,0.2);
+  display: flex; gap: 12px;
+}
+.cn-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.cn-text { font-size: 12px; color: var(--forest); line-height: 1.6; }
+
+/* ══ FEATURES ══ */
+.features-section {
+  padding: 100px 48px;
+  background: var(--cream-dark);
+}
+@media (max-width: 700px) { .features-section { padding: 80px 24px; } }
+.features-inner { max-width: 1100px; margin: 0 auto; }
+.features-header { margin-bottom: 60px; }
+.features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border-dark); border: 1px solid var(--border-dark); }
+@media (max-width: 900px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 580px) { .features-grid { grid-template-columns: 1fr; } }
+.feature-tile {
+  background: var(--white); padding: 36px 32px;
+  transition: background 0.2s; position: relative; overflow: hidden;
+}
+.feature-tile:hover { background: var(--cream); }
+.feature-tile::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 0;
+  background: var(--forest-light);
+  transition: height 0.35s ease;
+}
+.feature-tile:hover::before { height: 100%; }
+.ft-icon { font-size: 28px; margin-bottom: 18px; display: block; }
+.ft-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600; margin-bottom: 10px; color: var(--ink);
+}
+.ft-body { font-size: 13px; color: var(--ink-muted); line-height: 1.75; font-weight: 300; }
+.ft-tag { display: block; margin-top: 14px; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--forest-light); font-weight: 500; }
+
+/* ══ TESTIMONIALS ══ */
+.proof-section {
+  padding: 100px 48px;
+  background: var(--forest);
+  position: relative;
+}
+@media (max-width: 700px) { .proof-section { padding: 80px 24px; } }
+.proof-inner { max-width: 1100px; margin: 0 auto; }
+.proof-header { text-align: center; margin-bottom: 64px; }
+.proof-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 60px); font-weight: 600;
+  color: var(--white); letter-spacing: -1.5px;
+}
+.proof-h2 em { font-style: italic; color: var(--sage); font-weight: 300; }
+
+.proof-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin-bottom: 1px; }
+@media (max-width: 600px) { .proof-stats { grid-template-columns: 1fr; } }
+.proof-stat {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+  padding: 40px; text-align: center;
+  transition: background 0.2s;
+}
+.proof-stat:hover { background: rgba(255,255,255,0.07); }
+.ps-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px; font-weight: 600; color: var(--white);
+  letter-spacing: -2px; display: block;
+}
+.ps-lbl { font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; margin-top: 4px; }
+
+.testimonials { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; }
+@media (max-width: 800px) { .testimonials { grid-template-columns: 1fr; } }
+.testimonial {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+  padding: 36px 32px; position: relative;
+  transition: background 0.2s;
+}
+.testimonial:hover { background: rgba(255,255,255,0.07); }
+.t-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px; line-height: 0.6; color: rgba(122,170,138,0.2);
+  display: block; margin-bottom: 16px; font-weight: 300;
+}
+.t-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 18px;
+  color: rgba(255,255,255,0.7); line-height: 1.6;
+  margin-bottom: 24px;
+}
+.t-author { display: flex; align-items: center; gap: 12px; }
+.t-av {
+  width: 38px; height: 38px; border-radius: 2px;
+  background: rgba(122,170,138,0.15); font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+}
+.t-name { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7); }
+.t-loc { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 1px; }
+
+/* ══ CTA / WAITLIST ══ */
+.cta-section {
+  padding: 120px 48px;
+  background: var(--cream);
+  position: relative; overflow: hidden;
+}
+@media (max-width: 700px) { .cta-section { padding: 80px 24px; } }
+.cta-section::before {
+  content: 'SAVOR';
+  position: absolute; bottom: -60px; left: -20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 240px; font-weight: 700; letter-spacing: -8px;
+  color: rgba(30,45,31,0.04); pointer-events: none; line-height: 1;
+  user-select: none; white-space: nowrap;
+}
+.cta-inner { max-width: 700px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+.cta-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold-pale); border: 1px solid rgba(200,145,58,0.2);
+  padding: 7px 18px; margin-bottom: 28px;
+  font-size: 10px; font-weight: 500; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gold);
+}
+.cta-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 6vw, 72px); font-weight: 700;
+  line-height: 0.95; letter-spacing: -2px; color: var(--ink);
+  margin-bottom: 20px;
+}
+.cta-h2 em { font-style: italic; color: var(--forest-light); font-weight: 300; }
+.cta-body {
+  font-size: 16px; color: var(--ink-muted);
+  line-height: 1.7; font-weight: 300; margin-bottom: 52px;
+}
+
+/* ── FORM ── */
+.waitlist-form {
+  background: var(--white); border: 1px solid var(--border-dark);
+  padding: 44px; text-align: left;
+  box-shadow: 0 24px 80px rgba(30,45,31,0.08);
+}
+.wf-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 600; color: var(--ink);
+  margin-bottom: 4px;
+}
+.wf-subtitle { font-size: 13px; color: var(--ink-muted); margin-bottom: 28px; font-weight: 300; }
+
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) { .field-grid { grid-template-columns: 1fr; } }
+
+.form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.form-field.no-mb { margin-bottom: 0; }
+.f-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--ink-muted);
+}
+.f-input {
+  padding: 12px 14px;
+  border: 1px solid var(--border-dark); border-radius: 0;
+  font-size: 14px; color: var(--ink);
+  background: var(--cream); outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+}
+.f-input:focus { border-color: var(--forest-light); background: var(--white); }
+.f-input.err { border-color: var(--terracotta); }
+.f-input::placeholder { color: rgba(26,24,16,0.3); }
+.f-select {
+  padding: 12px 14px;
+  border: 1px solid var(--border-dark);
+  font-size: 14px; color: var(--ink);
+  background: var(--cream); outline: none;
+  transition: border-color 0.2s;
+  width: 100%; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7660' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  font-family: 'Jost', sans-serif; cursor: pointer;
+}
+.f-select:focus { border-color: var(--forest-light); }
+
+.f-checkbox-row { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0; }
+.f-checkbox {
+  width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;
+  border: 1px solid var(--border-dark); background: var(--cream);
+  appearance: none; cursor: pointer; position: relative;
+  transition: all 0.15s;
+}
+.f-checkbox:checked { background: var(--forest); border-color: var(--forest); }
+.f-checkbox:checked::after {
+  content: '✓'; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  color: var(--white); font-size: 10px; font-weight: 600;
+}
+.f-checkbox-label { font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+
+.form-err-banner {
+  background: rgba(192,90,58,0.08); border: 1px solid rgba(192,90,58,0.2);
+  padding: 10px 14px; font-size: 13px; color: var(--terracotta);
+  margin-bottom: 14px; display: none;
+}
+.form-err-banner.show { display: block; }
+
+.f-submit {
+  width: 100%; padding: 15px;
+  background: var(--forest); color: var(--white);
+  border: none; cursor: pointer;
+  font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+  transition: background 0.2s; position: relative; overflow: hidden;
+  font-family: 'Jost', sans-serif;
+}
+.f-submit:hover:not(:disabled) { background: var(--forest-mid); }
+.f-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.f-submit-text { transition: opacity 0.2s; }
+.f-submit.loading .f-submit-text { opacity: 0; }
+.f-spinner {
+  display: none; position: absolute; top: 50%; left: 50%;
+  width: 18px; height: 18px; margin: -9px 0 0 -9px;
+  border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+.f-submit.loading .f-spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.form-note {
+  margin-top: 14px; font-size: 11px; color: var(--ink-muted);
+  text-align: center; line-height: 1.5;
+}
+.formspree-note {
+  margin-top: 10px; font-size: 10px; color: rgba(26,24,16,0.3);
+  text-align: center; letter-spacing: 0.3px;
+}
+
+/* Success */
+.success-wrap { display: none; text-align: center; padding: 40px 20px; }
+.success-wrap.show { display: block; animation: fadeUp 0.5s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+.sw-icon { font-size: 64px; display: block; margin-bottom: 20px; }
+.sw-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 600; color: var(--ink); margin-bottom: 10px;
+}
+.sw-body { font-size: 15px; color: var(--ink-muted); line-height: 1.6; margin-bottom: 20px; }
+.sw-num {
+  display: inline-block; background: var(--sage-pale);
+  border: 1px solid rgba(74,124,89,0.2);
+  padding: 8px 20px; font-size: 13px; color: var(--forest); font-weight: 500;
+}
+
+/* ══ FOOTER ══ */
+.footer {
+  background: var(--forest);
+  padding: 60px 48px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+@media (max-width: 700px) { .footer { padding: 48px 24px; } }
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 32px;
+}
+.footer-brand { }
+.footer-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 600; color: var(--white);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+.footer-tagline { font-size: 12px; color: rgba(255,255,255,0.3); font-style: italic; }
+.footer-links { display: flex; gap: 28px; flex-wrap: wrap; align-items: center; }
+.footer-links a {
+  font-size: 12px; color: rgba(255,255,255,0.3); text-decoration: none;
+  letter-spacing: 0.5px; transition: color 0.2s;
+}
+.footer-links a:hover { color: rgba(255,255,255,0.7); }
+.footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); align-self: flex-end; }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">🌿</div>
+    <span class="nav-logo-text">Savor</span>
+  </a>
+  <div class="nav-right">
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="#pantry" class="nav-link">Pantry</a>
+    <a href="#creators" class="nav-link">Creators</a>
+    <a href="#waitlist" class="nav-btn">Get early access</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-lines"></div>
+
+  <div class="hero-left">
+    <div class="hero-badge reveal">
+      <span class="hero-badge-dot"></span>
+      Early access · Founding members open
+    </div>
+
+    <h1 class="hero-h1 reveal">
+      Delicious
+      <span class="hero-h1-italic">is the whole</span>
+      point.
+    </h1>
+    <span class="hero-h1-sub reveal">Your food coach. Your recipe curator. Your pantry manager.</span>
+
+    <p class="hero-desc reveal">The idea that eating well means eating boringly is the oldest lie in your kitchen. Savor ends it — one extraordinary, nourishing meal at a time.</p>
+
+    <div class="hero-ctas reveal">
+      <a href="#waitlist" class="btn-forest-primary">Join the waitlist</a>
+      <a href="#how" class="btn-forest-ghost">See how it works</a>
+    </div>
+
+    <div class="hero-proof reveal">
+      <div class="hero-proof-stat">
+        <span class="hps-val">2,400+</span>
+        <span class="hps-lbl">Households waiting</span>
+      </div>
+      <div class="hero-proof-stat">
+        <span class="hps-val">4 min</span>
+        <span class="hps-lbl">To set up your pantry</span>
+      </div>
+      <div class="hero-proof-stat">
+        <span class="hps-val">Free</span>
+        <span class="hps-lbl">For founding members</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-food-grid">
+      <div class="hfg-row">
+        <div class="hfg-cell hfg-1"><span>🍛</span><div class="hfg-cell-overlay"></div><span class="hfg-cell-label">Tonight's dinner</span><span class="hfg-cell-tag">Fits goals</span></div>
+        <div class="hfg-cell hfg-2"><span>🫙</span><div class="hfg-cell-overlay"></div><span class="hfg-cell-label">Pantry tracked</span></div>
+      </div>
+      <div class="hfg-row">
+        <div class="hfg-cell hfg-3"><span>🥗</span><div class="hfg-cell-overlay"></div><span class="hfg-cell-label">Curated for you</span></div>
+        <div class="hfg-cell hfg-4"><span>📺</span><div class="hfg-cell-overlay"></div><span class="hfg-cell-label">From creators</span><span class="hfg-cell-tag">Open ↗</span></div>
+      </div>
+      <div class="hfg-row">
+        <div class="hfg-cell hfg-5"><span>🍜</span><div class="hfg-cell-overlay"></div></div>
+        <div class="hfg-cell hfg-6"><span>🐟</span><div class="hfg-cell-overlay"></div><span class="hfg-cell-label">High protein</span></div>
+        <div class="hfg-cell hfg-7"><span>🫘</span><div class="hfg-cell-overlay"></div><span class="hfg-cell-label">In pantry</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-bar"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ══ STATEMENT ══ -->
+<section class="statement-section">
+  <div class="statement-inner">
+    <p class="statement-quote reveal">
+      "Eating well means boiled chicken and sad salads. Real food — the stuff you <strong>actually want</strong> — is your reward for when you're not being healthy."
+    </p>
+    <p class="statement-attribution reveal reveal-d1">— A belief held by almost everyone. True for almost no one.</p>
+    <div class="ornament-divider reveal reveal-d2">
+      <div class="odiv-line"></div>
+      <span class="odiv-leaf">🌿</span>
+      <div class="odiv-line"></div>
+    </div>
+    <p class="statement-resolve reveal reveal-d3">
+      What if the most delicious meal you've had this month<br>
+      was also <em>exactly what your body was asking for?</em><br>
+      That's not luck. That's Savor.
+    </p>
+  </div>
+</section>
+
+<!-- ══ THREE PILLARS ══ -->
+<section class="pillars-section">
+  <div class="pillars-header">
+    <span class="eyebrow pillars-eyebrow reveal">Three things. One app.</span>
+    <h2 class="pillars-h2 reveal reveal-d1">The kitchen team<br>you never <em>had</em>.</h2>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar reveal">
+      <div class="pillar-num">1</div>
+      <div class="pillar-icon-wrap">🥗</div>
+      <h3 class="pillar-title">Your Personal Diet Coach</h3>
+      <p class="pillar-body">Understands your goals — whether that's weight, energy, managing a condition, or simply feeling better. Builds a weekly plan that's genuinely yours, and updates it quietly as life changes.</p>
+      <div class="pillar-features">
+        <div class="pf-item"><span class="pf-dot">·</span>Nutrition tracked invisibly — no obsessive logging</div>
+        <div class="pf-item"><span class="pf-dot">·</span>Adapts when you skip a meal or eat something different</div>
+        <div class="pf-item"><span class="pf-dot">·</span>Notices patterns you don't — and nudges gently</div>
+      </div>
+    </div>
+    <div class="pillar reveal reveal-d1">
+      <div class="pillar-num">2</div>
+      <div class="pillar-icon-wrap">👨‍🍳</div>
+      <h3 class="pillar-title">Your Michelin-Level Recipe Curator</h3>
+      <p class="pillar-body">Curates recipes from the world's best food creators — beloved YouTube channels, iconic food blogs — matched to your palate and your macros. Indian, Japanese, Mediterranean, whatever you love.</p>
+      <div class="pillar-features">
+        <div class="pf-item"><span class="pf-dot">·</span>Learns your cuisine preferences over time</div>
+        <div class="pf-item"><span class="pf-dot">·</span>Every recipe links to the creator's original page</div>
+        <div class="pf-item"><span class="pf-dot">·</span>Clear instructions — for you or your home cook</div>
+      </div>
+    </div>
+    <div class="pillar reveal reveal-d2">
+      <div class="pillar-num">3</div>
+      <div class="pillar-icon-wrap">🛒</div>
+      <h3 class="pillar-title">Your Pantry Manager</h3>
+      <p class="pillar-body">Knows what's in your kitchen. Recommends recipes you can cook tonight. Flags what's expiring. Generates your weekly shopping list automatically — so the ingredients are always there.</p>
+      <div class="pillar-features">
+        <div class="pf-item"><span class="pf-dot">·</span>Set up in 4 minutes during onboarding</div>
+        <div class="pf-item"><span class="pf-dot">·</span>Expiry alerts — nothing wasted</div>
+        <div class="pf-item"><span class="pf-dot">·</span>One-tap grocery list export</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PANTRY ONBOARDING ══ -->
+<section class="pantry-section" id="pantry">
+  <div class="pantry-inner">
+    <div class="pantry-layout">
+
+      <!-- Interactive mockup -->
+      <div class="reveal">
+        <div class="pantry-mockup">
+          <div class="pm-header">
+            <span class="pm-header-title">Setting up your pantry</span>
+            <span class="pm-step-badge" id="pmStepBadge">Step 1 of 4</span>
+          </div>
+          <div class="pm-body" id="pmBody">
+            <p class="pm-question" id="pmQuestion">What grains & carbs do you usually keep?</p>
+            <p class="pm-hint">Tap everything that's typically in your kitchen</p>
+
+            <div class="pm-category-label">GRAINS & CARBS</div>
+            <div class="pm-chips" id="pmChips1">
+              <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🍚</span>Basmati Rice</div>
+              <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🌾</span>Atta / Wheat</div>
+              <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🍝</span>Pasta</div>
+              <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🥣</span>Oats</div>
+              <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🌽</span>Quinoa</div>
+              <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🫓</span>Bread</div>
+            </div>
+
+            <div class="pm-category-label">PULSES & PROTEIN</div>
+            <div class="pm-chips">
+              <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🫘</span>Dal / Lentils</div>
+              <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🐣</span>Eggs</div>
+              <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🫙</span>Chickpeas (canned)</div>
+              <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🧀</span>Paneer</div>
+            </div>
+          </div>
+          <div class="pm-footer">
+            <div class="pm-progress" id="pmProgress">
+              <div class="pm-prog-dot done"></div>
+              <div class="pm-prog-dot active"></div>
+              <div class="pm-prog-dot"></div>
+              <div class="pm-prog-dot"></div>
+            </div>
+            <button class="pm-next-btn" onclick="advancePantry()">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text side -->
+      <div class="reveal reveal-d2">
+        <span class="eyebrow">Pantry setup</span>
+        <h2 class="display-headline" style="margin-bottom:16px">Savor learns your kitchen<br>in <em>four minutes</em>.</h2>
+        <p class="body-text">Savor doesn't guess. It walks you through your kitchen, category by category, with a simple visual scan. Tap what you have. Skip what you don't. That's your baseline.</p>
+
+        <div class="pantry-steps">
+          <div class="pantry-step">
+            <span class="ps-num">1</span>
+            <div>
+              <div class="ps-title">Guided pantry scan during onboarding</div>
+              <div class="ps-body">4 screens covering grains, proteins, produce, condiments and spices. Visual tile selection — no typing. Takes under 4 minutes.</div>
+            </div>
+          </div>
+          <div class="pantry-step">
+            <span class="ps-num">2</span>
+            <div>
+              <div class="ps-title">Post-cook confirmations keep it current</div>
+              <div class="ps-body">After each meal, Savor asks what you used. A single tap updates your pantry. Passive, accurate, frictionless.</div>
+            </div>
+          </div>
+          <div class="pantry-step">
+            <span class="ps-num">3</span>
+            <div>
+              <div class="ps-title">Savor only suggests what you can actually make</div>
+              <div class="ps-body">Every recipe recommendation is cross-checked against your pantry. Missing an ingredient? It's flagged — and added to your shopping list automatically.</div>
+            </div>
+          </div>
+          <div class="pantry-step">
+            <span class="ps-num">4</span>
+            <div>
+              <div class="ps-title">Expiry intelligence — nothing goes to waste</div>
+              <div class="ps-body">Savor notices what's expiring and builds meals around it. That miso paste expiring Friday? Dinner sorted.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="how-header reveal">
+      <span class="eyebrow">How it works</span>
+      <h2 class="display-headline" style="margin-bottom:16px">Three steps to a meal<br>you'll <em>actually love</em>.</h2>
+      <p class="body-text">No complicated setup. No Sunday meal-prep guilt. No calorie spreadsheets. Just open Savor.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal reveal-d1">
+        <span class="hs-num">01</span>
+        <h3 class="hs-title">Tell Savor who you are & set up your kitchen</h3>
+        <p class="hs-body">Your health goals, food preferences, the cuisines you love, and a 4-minute pantry scan. Savor uses this to build a plan that fits your actual life — not a generic template.</p>
+        <div class="hs-note">🎯 No obsessive logging required</div>
+      </div>
+      <div class="how-step reveal reveal-d2">
+        <span class="hs-num">02</span>
+        <h3 class="hs-title">Savor curates your week from the world's best creators</h3>
+        <p class="hs-body">Every day, a set of meals sourced from beloved YouTube channels and food blogs — matched to your macros, your pantry, and your palate. Recipes you'll genuinely want to eat.</p>
+        <div class="hs-note">🍳 Recipes you'll actually crave</div>
+      </div>
+      <div class="how-step reveal reveal-d3">
+        <span class="hs-num">03</span>
+        <h3 class="hs-title">Cook it yourself — or hand it to your cook</h3>
+        <p class="hs-body">Follow the recipe, open the creator's original page, or share the card with whoever's in your kitchen. The shopping list is already done. The ingredients are already there.</p>
+        <div class="hs-note">🌿 Built for home chefs too</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOR EVERYONE ══ -->
+<section class="everyone-section">
+  <div class="everyone-grid">
+    <div class="ec-panel ec-panel-self reveal">
+      <span class="ec-big-icon">🧑‍🍳</span>
+      <h3 class="ec-title">You love to cook yourself</h3>
+      <p class="ec-body">Savor becomes your kitchen companion. Step-by-step guidance, video links, and ingredients already in your pantry. You cook — Savor makes sure every meal counts.</p>
+      <div class="ec-list">
+        <div class="ec-list-item"><span class="ec-check">✓</span>Clear instructions at every step</div>
+        <div class="ec-list-item"><span class="ec-check">✓</span>Opens YouTube or blog in one tap</div>
+        <div class="ec-list-item"><span class="ec-check">✓</span>Pantry checked before every suggestion</div>
+        <div class="ec-list-item"><span class="ec-check">✓</span>Shopping list ready for what's missing</div>
+      </div>
+    </div>
+    <div class="ec-panel ec-panel-home reveal reveal-d2">
+      <span class="ec-big-icon">🏠</span>
+      <h3 class="ec-title">You have a home cook or chef</h3>
+      <p class="ec-body">Savor curates. You share. Hand the recipe card to your cook — every ingredient, measurement, and step, sourced from the best food creators in the world. The meal is yours to enjoy.</p>
+      <div class="ec-list">
+        <div class="ec-list-item"><span class="ec-check">✓</span>Share-ready recipe cards in one tap</div>
+        <div class="ec-list-item"><span class="ec-check">✓</span>Complete ingredient lists to hand over</div>
+        <div class="ec-list-item"><span class="ec-check">✓</span>Weekly plans your cook can follow</div>
+        <div class="ec-list-item"><span class="ec-check">✓</span>You choose the cuisine, Savor does the rest</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CREATORS ══ -->
+<section class="creator-section" id="creators">
+  <div class="creator-inner">
+    <div class="creator-layout">
+      <div class="reveal">
+        <span class="eyebrow">For the food creator community</span>
+        <h2 class="display-headline" style="margin-bottom:0">We send people<br><em>to</em> creators.</h2>
+        <p class="creator-credo">"Every recipe Savor recommends opens in the creator's world — their video, their blog, their audience. We're a discovery layer, not a replacement."</p>
+        <p class="body-text">Savor surfaces a recipe with the creator's name, channel, and context front and centre. The traffic, the views, the followers — they're all theirs. Always.</p>
+      </div>
+      <div class="reveal reveal-d2">
+        <div class="creator-grid">
+          <div class="creator-card">
+            <div class="cc-avatar">👨‍🍳</div>
+            <div><div class="cc-name">Joshua Weissman</div><div class="cc-subs">9.4M subscribers</div><div class="cc-type">YouTube</div></div>
+          </div>
+          <div class="creator-card">
+            <div class="cc-avatar">🌱</div>
+            <div><div class="cc-name">Minimalist Baker</div><div class="cc-subs">4.1M followers</div><div class="cc-type">Blog</div></div>
+          </div>
+          <div class="creator-card">
+            <div class="cc-avatar">🇮🇳</div>
+            <div><div class="cc-name">Hebbars Kitchen</div><div class="cc-subs">2.7M followers</div><div class="cc-type">Blog + YouTube</div></div>
+          </div>
+          <div class="creator-card">
+            <div class="cc-avatar">🍜</div>
+            <div><div class="cc-name">Way of Ramen</div><div class="cc-subs">1.1M subscribers</div><div class="cc-type">YouTube</div></div>
+          </div>
+          <div class="creator-card">
+            <div class="cc-avatar">🌈</div>
+            <div><div class="cc-name">Rainbow Plant Life</div><div class="cc-subs">1.2M followers</div><div class="cc-type">Blog + YouTube</div></div>
+          </div>
+          <div class="creator-card">
+            <div class="cc-avatar">🐟</div>
+            <div><div class="cc-name">Just One Cookbook</div><div class="cc-subs">1.8M followers</div><div class="cc-type">Blog</div></div>
+          </div>
+        </div>
+        <div class="creator-note">
+          <span class="cn-icon">💡</span>
+          <span class="cn-text">Building a creator partnership programme. If you make food content and want to be featured, early access members are first to know.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section class="features-section" id="features">
+  <div class="features-inner">
+    <div class="features-header reveal">
+      <span class="eyebrow">Everything in one place</span>
+      <h2 class="display-headline">The details that make<br>the <em>difference</em>.</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-tile reveal reveal-d1">
+        <span class="ft-icon">🎯</span>
+        <h3 class="ft-title">Invisible Nutrition</h3>
+        <p class="ft-body">Savor tracks macros in the background. You see meals you want to eat. The numbers work quietly so you don't have to obsess over them.</p>
+        <span class="ft-tag">Diet Coach</span>
+      </div>
+      <div class="feature-tile reveal reveal-d2">
+        <span class="ft-icon">🌍</span>
+        <h3 class="ft-title">World Cuisines, Your Goals</h3>
+        <p class="ft-body">Indian tonight. Japanese tomorrow. Mediterranean on Sunday. Global cuisine mapped to your nutritional needs — without ever feeling like a compromise.</p>
+        <span class="ft-tag">Recipe Curator</span>
+      </div>
+      <div class="feature-tile reveal reveal-d3">
+        <span class="ft-icon">🫙</span>
+        <h3 class="ft-title">Expiry Intelligence</h3>
+        <p class="ft-body">That miso paste expiring Friday? Savor schedules a recipe around it. Nothing wasted. Every ingredient used at its peak.</p>
+        <span class="ft-tag">Pantry Manager</span>
+      </div>
+      <div class="feature-tile reveal reveal-d1">
+        <span class="ft-icon">📱</span>
+        <h3 class="ft-title">Hand It to Your Cook</h3>
+        <p class="ft-body">Every recipe is share-ready. Full ingredient lists, clear steps, and the original creator's page — all in one tap. Works as well for your home chef as it does for you.</p>
+        <span class="ft-tag">For Everyone</span>
+      </div>
+      <div class="feature-tile reveal reveal-d2">
+        <span class="ft-icon">🛍️</span>
+        <h3 class="ft-title">Auto Shopping List</h3>
+        <p class="ft-body">Savor cross-checks your pantry against the week's recipes and generates a precise list. No duplicates. No forgetting. Download and go.</p>
+        <span class="ft-tag">Pantry Manager</span>
+      </div>
+      <div class="feature-tile reveal reveal-d3">
+        <span class="ft-icon">🔥</span>
+        <h3 class="ft-title">Pattern & Streak Insights</h3>
+        <p class="ft-body">Savor notices when you're short on protein mid-week or always skip your Friday snack. Gentle nudges. Progress, not perfection.</p>
+        <span class="ft-tag">Diet Coach</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROOF ══ -->
+<section class="proof-section">
+  <div class="proof-inner">
+    <div class="proof-header reveal">
+      <span class="eyebrow" style="color:var(--sage)">Early community</span>
+      <h2 class="proof-h2">People are <em>hungry</em> for this.</h2>
+    </div>
+    <div class="proof-stats">
+      <div class="proof-stat reveal reveal-d1"><span class="ps-val">2,400+</span><span class="ps-lbl">Households on the waitlist</span></div>
+      <div class="proof-stat reveal reveal-d2"><span class="ps-val">14</span><span class="ps-lbl">Countries represented</span></div>
+      <div class="proof-stat reveal reveal-d3"><span class="ps-val">87%</span><span class="ps-lbl">Say healthy eating feels like a chore</span></div>
+    </div>
+    <div class="testimonials">
+      <div class="testimonial reveal reveal-d1">
+        <span class="t-mark">"</span>
+        <p class="t-body">I've tried every meal planning app. They all make me feel like I'm on a diet. Savor actually makes me excited to eat well.</p>
+        <div class="t-author"><div class="t-av">👩</div><div><div class="t-name">Priya M.</div><div class="t-loc">Mumbai · Early tester</div></div></div>
+      </div>
+      <div class="testimonial reveal reveal-d2">
+        <span class="t-mark">"</span>
+        <p class="t-body">My cook and I are on the same page for the first time. I share the recipe card, she cooks it perfectly. My health goals actually work now.</p>
+        <div class="t-author"><div class="t-av">🧑</div><div><div class="t-name">Rahul S.</div><div class="t-loc">Bangalore · Early tester</div></div></div>
+      </div>
+      <div class="testimonial reveal reveal-d3">
+        <span class="t-mark">"</span>
+        <p class="t-body">The miso salmon was genuinely one of the best things I've cooked. I had no idea it was exactly what I needed nutritionally. That's the magic.</p>
+        <div class="t-author"><div class="t-av">👨</div><div><div class="t-name">Aditya K.</div><div class="t-loc">Delhi · Early tester</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WAITLIST ══ -->
+<section class="cta-section" id="waitlist">
+  <div class="cta-inner">
+    <div class="cta-tag reveal">🌿 First 500 households · Founding member pricing locked forever</div>
+    <h2 class="cta-h2 reveal reveal-d1">Your kitchen is about<br>to get a lot <em>happier</em>.</h2>
+    <p class="cta-body reveal reveal-d2">Join the Savor waitlist. We're opening access in small batches. Founding members get lifetime pricing — locked in, forever. No credit card needed.</p>
+
+    <div class="reveal reveal-d3">
+      <div class="waitlist-form" id="formBox">
+        <div class="wf-title">Reserve your spot</div>
+        <div class="wf-subtitle">Takes 60 seconds · No credit card · Unsubscribe anytime</div>
+
+        <!--
+          TO MAKE THIS FORM LIVE:
+          1. Go to formspree.io → create free account → New Form
+          2. Copy your form ID (looks like: xpzgkwqr)
+          3. Replace YOUR_FORMSPREE_ID below with your actual ID
+          Then this form will email you every submission and store data in Formspree's dashboard.
+        -->
+        <form id="waitlistForm" novalidate>
+          <div class="field-grid">
+            <div class="form-field no-mb">
+              <label class="f-label" for="fName">First name *</label>
+              <input class="f-input" type="text" id="fName" placeholder="Anshul" autocomplete="given-name">
+            </div>
+            <div class="form-field no-mb">
+              <label class="f-label" for="fEmail">Email address *</label>
+              <input class="f-input" type="email" id="fEmail" placeholder="you@example.com" autocomplete="email">
+            </div>
+          </div>
+          <div class="field-grid" style="margin-top:14px">
+            <div class="form-field no-mb">
+              <label class="f-label" for="fCity">City</label>
+              <input class="f-input" type="text" id="fCity" placeholder="Mumbai">
+            </div>
+            <div class="form-field no-mb">
+              <label class="f-label" for="fCook">How you cook</label>
+              <select class="f-select" id="fCook">
+                <option value="" disabled selected>Select one</option>
+                <option value="self">I cook myself</option>
+                <option value="homechef">I have a home cook</option>
+                <option value="both">Mix of both</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field" style="margin-top:14px">
+            <label class="f-label" for="fGoal">What matters most to you?</label>
+            <select class="f-select" id="fGoal">
+              <option value="" disabled selected>My primary goal</option>
+              <option value="weightloss">Lose weight, feel lighter</option>
+              <option value="energy">More energy through the day</option>
+              <option value="muscle">Build strength and muscle</option>
+              <option value="condition">Managing a health condition</option>
+              <option value="just">Eat better, feel better — that's enough</option>
+            </select>
+          </div>
+          <div class="f-checkbox-row">
+            <input class="f-checkbox" type="checkbox" id="fConsent">
+            <label class="f-checkbox-label" for="fConsent">I'd love to hear from Savor about early access, new features, and founding member pricing. No spam — unsubscribe any time.</label>
+          </div>
+          <div class="form-err-banner" id="formErr"></div>
+          <button type="submit" class="f-submit" id="fSubmit">
+            <span class="f-submit-text">Reserve my spot</span>
+            <div class="f-spinner"></div>
+          </button>
+          <p class="form-note">Joining as #<span id="waitNum">2,401</span> on the waitlist</p>
+          <p class="formspree-note">⚙️ To activate live data collection: create a free account at formspree.io, add your form ID to the code, and submissions will be emailed to you and stored in a dashboard.</p>
+        </form>
+      </div>
+
+      <div class="success-wrap" id="successWrap">
+        <span class="sw-icon">🌿</span>
+        <h3 class="sw-headline">You're on the list.</h3>
+        <p class="sw-body">We'll be in touch with your early access details.<br>In the meantime — tell someone you love about Savor.</p>
+        <span class="sw-num" id="swNum">You're #2,401 on the waitlist</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-name">🌿 Savor</div>
+      <div class="footer-tagline">Delicious is the whole point.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#how">How it works</a>
+      <a href="#pantry">Pantry</a>
+      <a href="#creators">Creators</a>
+      <a href="#waitlist">Early access</a>
+    </div>
+    <div class="footer-copy">© 2025 Savor</div>
+  </div>
+</footer>
+
+<script>
+/* ── Nav scroll ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+/* ── Scroll reveal ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── Smooth scroll ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+/* ── Pantry mockup interaction ── */
+const pantrySteps = [
+  {
+    badge: 'Step 1 of 4', question: 'What grains & carbs do you usually keep?',
+    content: `
+      <p class="pm-hint">Tap everything that's typically in your kitchen</p>
+      <div class="pm-category-label">GRAINS & CARBS</div>
+      <div class="pm-chips">
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🍚</span>Basmati Rice</div>
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🌾</span>Atta / Wheat</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🍝</span>Pasta</div>
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🥣</span>Oats</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🌽</span>Quinoa</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🫓</span>Bread</div>
+      </div>
+      <div class="pm-category-label">PULSES & PROTEIN</div>
+      <div class="pm-chips">
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🫘</span>Dal / Lentils</div>
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🐣</span>Eggs</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🫙</span>Chickpeas</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🧀</span>Paneer</div>
+      </div>`
+  },
+  {
+    badge: 'Step 2 of 4', question: 'What\'s usually in your fridge?',
+    content: `
+      <p class="pm-hint">Fresh produce and dairy you typically stock</p>
+      <div class="pm-category-label">VEGETABLES</div>
+      <div class="pm-chips">
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🧅</span>Onions</div>
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🍅</span>Tomatoes</div>
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🧄</span>Garlic</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🥬</span>Spinach</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🥕</span>Carrots</div>
+      </div>
+      <div class="pm-category-label">DAIRY & FRIDGE</div>
+      <div class="pm-chips">
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🥛</span>Milk / Curd</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🧈</span>Butter / Ghee</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🍋</span>Lemons</div>
+      </div>`
+  },
+  {
+    badge: 'Step 3 of 4', question: 'Your spice rack & condiments?',
+    content: `
+      <p class="pm-hint">The building blocks of every great meal</p>
+      <div class="pm-category-label">EVERYDAY SPICES</div>
+      <div class="pm-chips">
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🟡</span>Turmeric</div>
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🔴</span>Chilli Powder</div>
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🟤</span>Cumin / Jeera</div>
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🌿</span>Coriander</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🫙</span>Garam Masala</div>
+      </div>
+      <div class="pm-category-label">OILS & SAUCES</div>
+      <div class="pm-chips">
+        <div class="pm-chip selected" onclick="toggleChip(this)"><span class="pm-chip-icon">🫒</span>Olive Oil</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🥢</span>Soy Sauce</div>
+        <div class="pm-chip" onclick="toggleChip(this)"><span class="pm-chip-icon">🫙</span>Miso Paste</div>
+      </div>`
+  },
+  {
+    badge: 'Step 4 of 4', question: 'Your pantry is set up!',
+    content: `
+      <p class="pm-hint">Savor has learned your kitchen. Here's what it found:</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--cream);border:1px solid var(--border)">
+          <span style="font-size:13px;font-weight:500;color:var(--ink)">🍚 Grains & Carbs</span>
+          <span style="font-size:11px;color:var(--forest-light);font-weight:500">3 items ✓</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--cream);border:1px solid var(--border)">
+          <span style="font-size:13px;font-weight:500;color:var(--ink)">🥬 Fridge & Produce</span>
+          <span style="font-size:11px;color:var(--forest-light);font-weight:500">4 items ✓</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--cream);border:1px solid var(--border)">
+          <span style="font-size:13px;font-weight:500;color:var(--ink)">🌿 Spices & Condiments</span>
+          <span style="font-size:11px;color:var(--forest-light);font-weight:500">5 items ✓</span>
+        </div>
+        <div style="padding:12px 14px;background:var(--sage-pale);border:1px solid rgba(74,124,89,0.2);font-size:12px;color:var(--forest)">
+          ✨ Savor can suggest <strong>18 recipes</strong> you can make tonight with what you have.
+        </div>
+      </div>`
+  }
+];
+
+let pantryStep = 0;
+function advancePantry() {
+  pantryStep = (pantryStep + 1) % pantrySteps.length;
+  const s = pantrySteps[pantryStep];
+  document.getElementById('pmStepBadge').textContent = s.badge;
+  document.getElementById('pmQuestion').textContent = s.question;
+  const body = document.getElementById('pmBody');
+  // Keep question, replace rest
+  body.innerHTML = `<p class="pm-question">${s.question}</p>${s.content}`;
+  // Re-observe chips
+  body.querySelectorAll('.pm-chip').forEach(c => c.addEventListener('click', () => toggleChip(c)));
+  // Progress dots
+  const dots = document.querySelectorAll('.pm-prog-dot');
+  dots.forEach((d, i) => {
+    d.className = 'pm-prog-dot';
+    if (i < pantryStep) d.classList.add('done');
+    else if (i === pantryStep) d.classList.add('active');
+  });
+  const btn = document.querySelector('.pm-next-btn');
+  btn.textContent = pantryStep === pantrySteps.length - 1 ? 'Start over ↺' : 'Next →';
+}
+function toggleChip(el) {
+  el.classList.toggle('selected');
+}
+
+/* ── Waitlist counter ── */
+let count = 2401;
+document.getElementById('waitNum').textContent = count.toLocaleString();
+
+/* ── Form submission ── */
+document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const name = document.getElementById('fName').value.trim();
+  const email = document.getElementById('fEmail').value.trim();
+  const consent = document.getElementById('fConsent').checked;
+  const errEl = document.getElementById('formErr');
+
+  // Clear
+  errEl.classList.remove('show');
+  ['fName','fEmail'].forEach(id => document.getElementById(id).classList.remove('err'));
+
+  // Validate
+  let err = '';
+  if (!name) { err = 'Please enter your first name.'; document.getElementById('fName').classList.add('err'); }
+  else if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err = 'Please enter a valid email address.'; document.getElementById('fEmail').classList.add('err'); }
+  else if (!consent) { err = 'Please check the consent box to continue.'; }
+
+  if (err) { errEl.textContent = err; errEl.classList.add('show'); return; }
+
+  const btn = document.getElementById('fSubmit');
+  btn.classList.add('loading'); btn.disabled = true;
+
+  /*
+    TO SEND DATA TO FORMSPREE:
+    Replace the setTimeout below with a real fetch call:
+
+    const response = await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name, email,
+        city: document.getElementById('fCity').value,
+        cooking_style: document.getElementById('fCook').value,
+        goal: document.getElementById('fGoal').value
+      })
+    });
+    if (!response.ok) { btn.classList.remove('loading'); btn.disabled = false; errEl.textContent = 'Something went wrong. Please try again.'; errEl.classList.add('show'); return; }
+  */
+
+  // Simulated for now — replace with formspree fetch above
+  await new Promise(r => setTimeout(r, 1800));
+
+  btn.classList.remove('loading');
+  document.getElementById('formBox').style.display = 'none';
+  const sw = document.getElementById('successWrap');
+  sw.classList.add('show');
+  document.getElementById('swNum').textContent = `You're #${count.toLocaleString()} on the waitlist`;
+  count++;
+});
+</script>
+</body>
+</html>
