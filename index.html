@@ -1419,7 +1419,7 @@ input[type=range]::-webkit-slider-thumb {
         <div class="browser-dot bd-g"></div>
       </div>
       <div class="browser-url" id="modalUrl">youtube.com/watch?v=…</div>
-      <div class="browser-open" onclick="showToast('Opening in creator\'s page...')">Open ↗</div>
+      <div class="browser-open" onclick="openCurrentRecipe()">Open ↗</div>
     </div>
     <div class="modal-body">
       <div class="modal-src-label" id="modalSrc">YouTube</div>
@@ -1443,7 +1443,7 @@ input[type=range]::-webkit-slider-thumb {
         <div class="modal-ing-title">Ingredients</div>
       </div>
       <div class="modal-actions">
-        <button class="btn-visit" onclick="showToast('Opening creator\'s original page in webview...')">▶ Open original recipe ↗</button>
+        <button class="btn-visit" onclick="openCurrentRecipe()">▶ Open original recipe ↗</button>
         <button class="btn-save" onclick="showToast('Saved to your recipe collection!')">Save</button>
         <button class="btn-schedule" onclick="showToast('Added to meal plan!')">Plan</button>
       </div>
@@ -1550,11 +1550,12 @@ function showToast(msg) {
 /* ─ MODAL DATA ─ */
 const mealData = {
   breakfast: {
-    url: 'naturallynidhi.com/masala-oat-upma-egg',
-    src: 'Blog · Naturally Nidhi',
+    url: 'https://www.vegrecipesofindia.com/masala-oats-recipe/',
+    displayUrl: 'vegrecipesofindia.com · Masala Oats',
+    src: 'Blog · Veg Recipes of India',
     title: 'Masala Oat Upma with Egg',
     creatorEmoji: '👩‍🍳',
-    creatorName: 'Nidhi Hegde',
+    creatorName: 'Dassana Amit',
     creatorSubs: '180K followers · Indian home cooking',
     time: '22 min', cal: '380', protein: '28g', servings: '1',
     fit: '✓ All ingredients in pantry · Fits today\'s macros',
@@ -1569,7 +1570,8 @@ const mealData = {
     ]
   },
   lunch: {
-    url: 'youtube.com/watch?v=EthanChlebowski_quinoa',
+    url: 'https://www.youtube.com/watch?v=U1MIFhrjPkk',
+    displayUrl: 'youtube.com · Ethan Chlebowski',
     src: 'YouTube · Ethan Chlebowski',
     title: 'Grilled Chicken & Quinoa Tabbouleh',
     creatorEmoji: '👨‍🍳',
@@ -1588,7 +1590,8 @@ const mealData = {
     ]
   },
   snack: {
-    url: 'minimalistbaker.com/greek-yogurt-parfait',
+    url: 'https://minimalistbaker.com/5-minute-greek-yogurt-parfait/',
+    displayUrl: 'minimalistbaker.com · Greek Yogurt Parfait',
     src: 'Blog · Minimalist Baker',
     title: 'Greek Yogurt Parfait with Honey Granola',
     creatorEmoji: '🌱',
@@ -1605,7 +1608,8 @@ const mealData = {
     ]
   },
   dinner: {
-    url: 'youtube.com/watch?v=JoshuaWeissman_miso_salmon',
+    url: 'https://www.youtube.com/watch?v=hLMnegXLPCA',
+    displayUrl: 'youtube.com · Joshua Weissman',
     src: 'YouTube · Joshua Weissman',
     title: 'Miso-Glazed Salmon with Soba Noodles',
     creatorEmoji: '👨‍🍳',
@@ -1624,7 +1628,8 @@ const mealData = {
     ]
   },
   ramen: {
-    url: 'youtube.com/watch?v=WayOfRamen_tantanmen',
+    url: 'https://www.youtube.com/watch?v=9WXzJGQBAlc',
+    displayUrl: 'youtube.com · Way of Ramen',
     src: 'YouTube · Way of Ramen',
     title: 'Spicy Tantanmen Ramen',
     creatorEmoji: '🍜',
@@ -1643,7 +1648,8 @@ const mealData = {
     ]
   },
   fattoush: {
-    url: 'cookingwithayeh.com/fattoush-sumac-halloumi',
+    url: 'https://www.cookingwithayeh.com/fattoush-salad/',
+    displayUrl: 'cookingwithayeh.com · Fattoush Salad',
     src: 'Blog · Cooking with Ayeh',
     title: 'Fattoush with Sumac Halloumi',
     creatorEmoji: '👩‍🍳',
@@ -1661,7 +1667,8 @@ const mealData = {
     ]
   },
   pasta: {
-    url: 'youtube.com/watch?v=PastaGrammar_nduja',
+    url: 'https://www.youtube.com/watch?v=gzBo_RMpMCQ',
+    displayUrl: 'youtube.com · Pasta Grammar',
     src: 'YouTube · Pasta Grammar',
     title: 'Nduja & Burrata Pappardelle',
     creatorEmoji: '🇮🇹',
@@ -1679,7 +1686,8 @@ const mealData = {
     ]
   },
   poke: {
-    url: 'rainbowplantlife.com/tofu-poke-bowl',
+    url: 'https://rainbowplantlife.com/vegan-poke-bowl/',
+    displayUrl: 'rainbowplantlife.com · Vegan Poke Bowl',
     src: 'Blog · Rainbow Plant Life',
     title: 'Poke-Style Tofu Rice Bowl',
     creatorEmoji: '🌈',
@@ -1698,7 +1706,8 @@ const mealData = {
     ]
   },
   curry: {
-    url: 'youtube.com/watch?v=AdamLiaw_prawn_curry',
+    url: 'https://www.youtube.com/watch?v=p-gONPpAsV0',
+    displayUrl: 'youtube.com · Adam Liaw',
     src: 'YouTube · Adam Liaw',
     title: 'Coconut Prawn Curry & Millet',
     creatorEmoji: '🦐',
@@ -1717,7 +1726,8 @@ const mealData = {
     ]
   },
   galettes: {
-    url: 'davidlebovitz.com/buckwheat-galettes',
+    url: 'https://www.davidlebovitz.com/buckwheat-crepes-galettes-bretonnes/',
+    displayUrl: 'davidlebovitz.com · Buckwheat Galettes',
     src: 'Blog · David Lebovitz',
     title: 'Savory Buckwheat Galettes',
     creatorEmoji: '🇫🇷',
@@ -1735,7 +1745,8 @@ const mealData = {
     ]
   },
   dal: {
-    url: 'hebbarskitchen.com/tadka-dal-recipe',
+    url: 'https://hebbarskitchen.com/dal-tadka-recipe-restaurant-style/',
+    displayUrl: 'hebbarskitchen.com · Dal Tadka',
     src: 'Blog · Hebbars Kitchen',
     title: 'Tadka Dal with Brown Rice',
     creatorEmoji: '🇮🇳',
@@ -1754,8 +1765,9 @@ const mealData = {
     ]
   },
   salmon: {
-    url: 'youtube.com/watch?v=JapaneseCooking_teriyaki_don',
-    src: 'YouTube · Just One Cookbook',
+    url: 'https://www.justonecookbook.com/teriyaki-salmon/',
+    displayUrl: 'justonecookbook.com · Teriyaki Salmon Don',
+    src: 'Blog · Just One Cookbook',
     title: 'Teriyaki Salmon Don',
     creatorEmoji: '🐟',
     creatorName: 'Nami Chen',
@@ -1774,12 +1786,15 @@ const mealData = {
   },
 };
 
+let currentRecipeUrl = '';
+
 function openMealModal(id) { openRecipeModal(id); }
 
 function openRecipeModal(id) {
   const d = mealData[id];
   if (!d) return;
-  document.getElementById('modalUrl').textContent = d.url;
+  currentRecipeUrl = d.url;
+  document.getElementById('modalUrl').textContent = d.displayUrl || d.url;
   document.getElementById('modalSrc').textContent = d.src;
   document.getElementById('modalTitle').textContent = d.title;
   document.getElementById('modalCreatorEmoji').textContent = d.creatorEmoji;
@@ -1809,6 +1824,12 @@ function openRecipeModal(id) {
   });
   document.getElementById('mealModal').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function openCurrentRecipe() {
+  if (currentRecipeUrl) {
+    window.open(currentRecipeUrl, '_blank', 'noopener,noreferrer');
+  }
 }
 
 function closeModalOnBg(e, id) {
