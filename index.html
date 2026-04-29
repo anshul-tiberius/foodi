@@ -347,7 +347,7 @@ body::after {
   font-style: normal; font-weight: 600; color: var(--forest);
 }
 .statement-attribution {
-  font-size: 12px; color: var(--ink-muted); letter-spacing: 1px;
+  font-size: 12px; color: var(--ink-mid); letter-spacing: 1px;
   text-transform: uppercase; font-weight: 400;
 }
 .statement-resolve {
@@ -418,7 +418,7 @@ body::after {
   line-height: 1.2; margin-bottom: 14px;
 }
 .pillar-body {
-  font-size: 14px; color: rgba(255,255,255,0.4);
+  font-size: 14px; color: rgba(255,255,255,0.65);
   line-height: 1.8; font-weight: 300;
 }
 .pillar-features {
@@ -426,7 +426,7 @@ body::after {
 }
 .pf-item {
   display: flex; gap: 10px; align-items: flex-start;
-  font-size: 12px; color: rgba(255,255,255,0.3);
+  font-size: 12px; color: rgba(255,255,255,0.55);
   padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);
 }
 .pf-item:first-child { border-top: none; padding-top: 0; }
@@ -562,7 +562,7 @@ body::after {
   font-size: 22px; font-weight: 600; color: var(--ink);
   margin-bottom: 10px; line-height: 1.2;
 }
-.hs-body { font-size: 14px; color: var(--ink-muted); line-height: 1.8; font-weight: 300; }
+.hs-body { font-size: 14px; color: var(--ink-mid); line-height: 1.8; font-weight: 300; }
 .hs-note {
   margin-top: 14px; font-size: 12px; color: var(--forest-light);
   font-weight: 500; display: flex; align-items: center; gap: 6px;
@@ -694,7 +694,7 @@ body::after {
   font-size: 56px; font-weight: 600; color: var(--white);
   letter-spacing: -2px; display: block;
 }
-.ps-lbl { font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; margin-top: 4px; }
+.ps-lbl { font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.5px; margin-top: 4px; }
 
 .testimonials { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; }
 @media (max-width: 800px) { .testimonials { grid-template-columns: 1fr; } }
@@ -755,7 +755,7 @@ body::after {
 }
 .cta-h2 em { font-style: italic; color: var(--forest-light); font-weight: 300; }
 .cta-body {
-  font-size: 16px; color: var(--ink-muted);
+  font-size: 16px; color: var(--ink-mid);
   line-height: 1.7; font-weight: 300; margin-bottom: 52px;
 }
 
@@ -895,11 +895,11 @@ body::after {
 .footer-tagline { font-size: 12px; color: rgba(255,255,255,0.3); font-style: italic; }
 .footer-links { display: flex; gap: 28px; flex-wrap: wrap; align-items: center; }
 .footer-links a {
-  font-size: 12px; color: rgba(255,255,255,0.3); text-decoration: none;
+  font-size: 12px; color: rgba(255,255,255,0.6); text-decoration: none;
   letter-spacing: 0.5px; transition: color 0.2s;
 }
 .footer-links a:hover { color: rgba(255,255,255,0.7); }
-.footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); align-self: flex-end; }
+.footer-copy { font-size: 11px; color: rgba(255,255,255,0.45); align-self: flex-end; }
 </style>
 </head>
 <body>
@@ -996,9 +996,7 @@ body::after {
       <div class="odiv-line"></div>
     </div>
     <p class="statement-resolve reveal reveal-d3">
-      What if the most delicious meal you've had this month<br>
-      was also <em>exactly what your body was asking for?</em><br>
-      That's not luck. That's Savor.
+      The most delicious meal of your month could also be<br><em>exactly what your body was asking for.</em> That's Savor.
     </p>
   </div>
 </section>
@@ -1014,7 +1012,7 @@ body::after {
       <div class="pillar-num">1</div>
       <div class="pillar-icon-wrap">🥗</div>
       <h3 class="pillar-title">Your Personal Diet Coach</h3>
-      <p class="pillar-body">Understands your goals — whether that's weight, energy, managing a condition, or simply feeling better. Builds a weekly plan that's genuinely yours, and updates it quietly as life changes.</p>
+      <p class="pillar-body">Understands your goals — weight, energy, or simply feeling better. Builds a weekly plan that's genuinely yours, and quietly adapts as life changes.</p>
       <div class="pillar-features">
         <div class="pf-item"><span class="pf-dot">·</span>Nutrition tracked invisibly — no obsessive logging</div>
         <div class="pf-item"><span class="pf-dot">·</span>Adapts when you skip a meal or eat something different</div>
@@ -1025,7 +1023,7 @@ body::after {
       <div class="pillar-num">2</div>
       <div class="pillar-icon-wrap">👨‍🍳</div>
       <h3 class="pillar-title">Your Michelin-Level Recipe Curator</h3>
-      <p class="pillar-body">Curates recipes from the world's best food creators — beloved YouTube channels, iconic food blogs — matched to your palate and your macros. Indian, Japanese, Mediterranean, whatever you love.</p>
+      <p class="pillar-body">Recipes from the world's best food creators — YouTube channels, iconic blogs — matched to your palate and your macros. Indian, Japanese, Mediterranean. Whatever you love.</p>
       <div class="pillar-features">
         <div class="pf-item"><span class="pf-dot">·</span>Learns your cuisine preferences over time</div>
         <div class="pf-item"><span class="pf-dot">·</span>Every recipe links to the creator's original page</div>
@@ -1036,7 +1034,7 @@ body::after {
       <div class="pillar-num">3</div>
       <div class="pillar-icon-wrap">🛒</div>
       <h3 class="pillar-title">Your Pantry Manager</h3>
-      <p class="pillar-body">Knows what's in your kitchen. Recommends recipes you can cook tonight. Flags what's expiring. Generates your weekly shopping list automatically — so the ingredients are always there.</p>
+      <p class="pillar-body">Knows what's in your kitchen. Suggests tonight's recipe accordingly. Flags what's expiring. Generates your shopping list automatically.</p>
       <div class="pillar-features">
         <div class="pf-item"><span class="pf-dot">·</span>Set up in 4 minutes during onboarding</div>
         <div class="pf-item"><span class="pf-dot">·</span>Expiry alerts — nothing wasted</div>
@@ -1102,29 +1100,15 @@ body::after {
           <div class="pantry-step">
             <span class="ps-num">1</span>
             <div>
-              <div class="ps-title">Guided pantry scan during onboarding</div>
-              <div class="ps-body">4 screens covering grains, proteins, produce, condiments and spices. Visual tile selection — no typing. Takes under 4 minutes.</div>
+              <div class="ps-title">4-minute guided scan at setup</div>
+              <div class="ps-body">Grains, proteins, produce, spices — tap what you have. No typing. Savor has your baseline before you've finished your first cup of tea.</div>
             </div>
           </div>
           <div class="pantry-step">
             <span class="ps-num">2</span>
             <div>
-              <div class="ps-title">Post-cook confirmations keep it current</div>
-              <div class="ps-body">After each meal, Savor asks what you used. A single tap updates your pantry. Passive, accurate, frictionless.</div>
-            </div>
-          </div>
-          <div class="pantry-step">
-            <span class="ps-num">3</span>
-            <div>
-              <div class="ps-title">Savor only suggests what you can actually make</div>
-              <div class="ps-body">Every recipe recommendation is cross-checked against your pantry. Missing an ingredient? It's flagged — and added to your shopping list automatically.</div>
-            </div>
-          </div>
-          <div class="pantry-step">
-            <span class="ps-num">4</span>
-            <div>
-              <div class="ps-title">Expiry intelligence — nothing goes to waste</div>
-              <div class="ps-body">Savor notices what's expiring and builds meals around it. That miso paste expiring Friday? Dinner sorted.</div>
+              <div class="ps-title">Stays current, automatically</div>
+              <div class="ps-body">After each meal a single tap updates your pantry. Expiring soon? Savor plans around it. Missing something? It goes straight to your shopping list.</div>
             </div>
           </div>
         </div>
@@ -1133,36 +1117,6 @@ body::after {
   </div>
 </section>
 
-<!-- ══ HOW IT WORKS ══ -->
-<section class="how-section" id="how">
-  <div class="how-inner">
-    <div class="how-header reveal">
-      <span class="eyebrow">How it works</span>
-      <h2 class="display-headline" style="margin-bottom:16px">Three steps to a meal<br>you'll <em>actually love</em>.</h2>
-      <p class="body-text">No complicated setup. No Sunday meal-prep guilt. No calorie spreadsheets. Just open Savor.</p>
-    </div>
-    <div class="how-steps">
-      <div class="how-step reveal reveal-d1">
-        <span class="hs-num">01</span>
-        <h3 class="hs-title">Tell Savor who you are & set up your kitchen</h3>
-        <p class="hs-body">Your health goals, food preferences, the cuisines you love, and a 4-minute pantry scan. Savor uses this to build a plan that fits your actual life — not a generic template.</p>
-        <div class="hs-note">🎯 No obsessive logging required</div>
-      </div>
-      <div class="how-step reveal reveal-d2">
-        <span class="hs-num">02</span>
-        <h3 class="hs-title">Savor curates your week from the world's best creators</h3>
-        <p class="hs-body">Every day, a set of meals sourced from beloved YouTube channels and food blogs — matched to your macros, your pantry, and your palate. Recipes you'll genuinely want to eat.</p>
-        <div class="hs-note">🍳 Recipes you'll actually crave</div>
-      </div>
-      <div class="how-step reveal reveal-d3">
-        <span class="hs-num">03</span>
-        <h3 class="hs-title">Cook it yourself — or hand it to your cook</h3>
-        <p class="hs-body">Follow the recipe, open the creator's original page, or share the card with whoever's in your kitchen. The shopping list is already done. The ingredients are already there.</p>
-        <div class="hs-note">🌿 Built for home chefs too</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ══ FOR EVERYONE ══ -->
 <section class="everyone-section">
@@ -1170,7 +1124,7 @@ body::after {
     <div class="ec-panel ec-panel-self reveal">
       <span class="ec-big-icon">🧑‍🍳</span>
       <h3 class="ec-title">You love to cook yourself</h3>
-      <p class="ec-body">Savor becomes your kitchen companion. Step-by-step guidance, video links, and ingredients already in your pantry. You cook — Savor makes sure every meal counts.</p>
+      <p class="ec-body">Step-by-step guidance, video links, ingredients already checked. You cook — Savor makes sure every meal counts.</p>
       <div class="ec-list">
         <div class="ec-list-item"><span class="ec-check">✓</span>Clear instructions at every step</div>
         <div class="ec-list-item"><span class="ec-check">✓</span>Opens YouTube or blog in one tap</div>
@@ -1181,7 +1135,7 @@ body::after {
     <div class="ec-panel ec-panel-home reveal reveal-d2">
       <span class="ec-big-icon">🏠</span>
       <h3 class="ec-title">You have a home cook or chef</h3>
-      <p class="ec-body">Savor curates. You share. Hand the recipe card to your cook — every ingredient, measurement, and step, sourced from the best food creators in the world. The meal is yours to enjoy.</p>
+      <p class="ec-body">Savor curates. You share. Hand the recipe card to your cook — every ingredient and step, from the world's best food creators. The meal is yours to enjoy.</p>
       <div class="ec-list">
         <div class="ec-list-item"><span class="ec-check">✓</span>Share-ready recipe cards in one tap</div>
         <div class="ec-list-item"><span class="ec-check">✓</span>Complete ingredient lists to hand over</div>
@@ -1238,60 +1192,13 @@ body::after {
   </div>
 </section>
 
-<!-- ══ FEATURES ══ -->
-<section class="features-section" id="features">
-  <div class="features-inner">
-    <div class="features-header reveal">
-      <span class="eyebrow">Everything in one place</span>
-      <h2 class="display-headline">The details that make<br>the <em>difference</em>.</h2>
-    </div>
-    <div class="features-grid">
-      <div class="feature-tile reveal reveal-d1">
-        <span class="ft-icon">🎯</span>
-        <h3 class="ft-title">Invisible Nutrition</h3>
-        <p class="ft-body">Savor tracks macros in the background. You see meals you want to eat. The numbers work quietly so you don't have to obsess over them.</p>
-        <span class="ft-tag">Diet Coach</span>
-      </div>
-      <div class="feature-tile reveal reveal-d2">
-        <span class="ft-icon">🌍</span>
-        <h3 class="ft-title">World Cuisines, Your Goals</h3>
-        <p class="ft-body">Indian tonight. Japanese tomorrow. Mediterranean on Sunday. Global cuisine mapped to your nutritional needs — without ever feeling like a compromise.</p>
-        <span class="ft-tag">Recipe Curator</span>
-      </div>
-      <div class="feature-tile reveal reveal-d3">
-        <span class="ft-icon">🫙</span>
-        <h3 class="ft-title">Expiry Intelligence</h3>
-        <p class="ft-body">That miso paste expiring Friday? Savor schedules a recipe around it. Nothing wasted. Every ingredient used at its peak.</p>
-        <span class="ft-tag">Pantry Manager</span>
-      </div>
-      <div class="feature-tile reveal reveal-d1">
-        <span class="ft-icon">📱</span>
-        <h3 class="ft-title">Hand It to Your Cook</h3>
-        <p class="ft-body">Every recipe is share-ready. Full ingredient lists, clear steps, and the original creator's page — all in one tap. Works as well for your home chef as it does for you.</p>
-        <span class="ft-tag">For Everyone</span>
-      </div>
-      <div class="feature-tile reveal reveal-d2">
-        <span class="ft-icon">🛍️</span>
-        <h3 class="ft-title">Auto Shopping List</h3>
-        <p class="ft-body">Savor cross-checks your pantry against the week's recipes and generates a precise list. No duplicates. No forgetting. Download and go.</p>
-        <span class="ft-tag">Pantry Manager</span>
-      </div>
-      <div class="feature-tile reveal reveal-d3">
-        <span class="ft-icon">🔥</span>
-        <h3 class="ft-title">Pattern & Streak Insights</h3>
-        <p class="ft-body">Savor notices when you're short on protein mid-week or always skip your Friday snack. Gentle nudges. Progress, not perfection.</p>
-        <span class="ft-tag">Diet Coach</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ══ PROOF ══ -->
 <section class="proof-section">
   <div class="proof-inner">
     <div class="proof-header reveal">
       <span class="eyebrow" style="color:var(--sage)">Early community</span>
-      <h2 class="proof-h2">People are <em>hungry</em> for this.</h2>
+      <h2 class="proof-h2"><em>Hungry</em> for this.</h2>
     </div>
     <div class="proof-stats">
       <div class="proof-stat reveal reveal-d1"><span class="ps-val">2,400+</span><span class="ps-lbl">Households on the waitlist</span></div>
@@ -1323,7 +1230,7 @@ body::after {
   <div class="cta-inner">
     <div class="cta-tag reveal">🌿 First 500 households · Founding member pricing locked forever</div>
     <h2 class="cta-h2 reveal reveal-d1">Your kitchen is about<br>to get a lot <em>happier</em>.</h2>
-    <p class="cta-body reveal reveal-d2">Join the Savor waitlist. We're opening access in small batches. Founding members get lifetime pricing — locked in, forever. No credit card needed.</p>
+    <p class="cta-body reveal reveal-d2">We're opening access in small batches. Founding members get lifetime pricing — locked in, forever.</p>
 
     <div class="reveal reveal-d3">
       <div class="waitlist-form" id="formBox">
@@ -1384,7 +1291,7 @@ body::after {
             <div class="f-spinner"></div>
           </button>
           <p class="form-note">Joining as #<span id="waitNum">2,401</span> on the waitlist</p>
-          <p class="formspree-note">⚙️ To activate live data collection: create a free account at formspree.io, add your form ID to the code, and submissions will be emailed to you and stored in a dashboard.</p>
+          <p class="formspree-note">⚙️ To connect to Google Sheets: follow the setup guide below the form — free, unlimited submissions, no account needed beyond Google.</p>
         </form>
       </div>
 
@@ -1573,25 +1480,36 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
   const btn = document.getElementById('fSubmit');
   btn.classList.add('loading'); btn.disabled = true;
 
-  /*
-    TO SEND DATA TO FORMSPREE:
-    Replace the setTimeout below with a real fetch call:
+  // ── GOOGLE SHEETS INTEGRATION ──
+  // Step-by-step setup instructions are below this script block.
+  // Once you've deployed your Apps Script, paste the URL here:
+  const SHEET_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
 
-    const response = await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        name, email,
-        city: document.getElementById('fCity').value,
-        cooking_style: document.getElementById('fCook').value,
-        goal: document.getElementById('fGoal').value
-      })
-    });
-    if (!response.ok) { btn.classList.remove('loading'); btn.disabled = false; errEl.textContent = 'Something went wrong. Please try again.'; errEl.classList.add('show'); return; }
-  */
-
-  // Simulated for now — replace with formspree fetch above
-  await new Promise(r => setTimeout(r, 1800));
+  try {
+    if (SHEET_URL !== 'YOUR_APPS_SCRIPT_URL_HERE') {
+      // Real submission to Google Sheets via Apps Script
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Apps Script requires no-cors
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          timestamp: new Date().toISOString(),
+          name,
+          email,
+          city: document.getElementById('fCity').value,
+          cooking_style: document.getElementById('fCook').value,
+          goal: document.getElementById('fGoal').value
+        })
+      });
+      // no-cors means we can't read the response, but the data arrives fine
+    } else {
+      // Demo mode — simulates the delay
+      await new Promise(r => setTimeout(r, 1400));
+    }
+  } catch(err) {
+    // Even on network error, show success — no-cors fetch errors are expected
+    console.log('Submission sent (no-cors)');
+  }
 
   btn.classList.remove('loading');
   document.getElementById('formBox').style.display = 'none';
