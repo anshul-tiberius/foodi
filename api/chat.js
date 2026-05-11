@@ -10,6 +10,12 @@ export default async function handler(req, res) {
 
   try {
     const { system, messages, max_tokens } = req.body;
+
+    // If no messages, send a single empty user message to get the opening line
+    const msgs = (messages && messages.length > 0)
+      ? messages
+      : [{ role: 'user', content: 'start' }];
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -21,9 +27,10 @@ export default async function handler(req, res) {
         model: 'claude-sonnet-4-5-20251001',
         max_tokens: max_tokens || 1000,
         system,
-        messages,
+        messages: msgs,
       }),
     });
+
     const data = await response.json();
     if (!response.ok) return res.status(400).json({ error: JSON.stringify(data) });
     return res.status(200).json({ text: data.content[0].text });
