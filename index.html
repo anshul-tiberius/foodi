@@ -1167,7 +1167,7 @@
 // ═══════════════════════════════════════════
 // CONFIGURATION — fill these in
 // ═══════════════════════════════════════════
-const ANTHROPIC_API_KEY = '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'; // ← you'll paste this in
+// API key lives securely in Vercel environment variables - see deployment instructions
 const GOOGLE_SHEET_WEBHOOK = 'https://script.google.com/macros/s/AKfycbz6oMQILCy4vUpzbOvDZkfo99wjz5eUAfjYDZMGogwCfoFv5-Xlw4OWPVvH-iKKH6M1/exec'; // ← you'll paste this in after setting up the sheet
 
 // ═══════════════════════════════════════════
@@ -1685,28 +1685,15 @@ function startHoldingLines() {
 // CLAUDE API CALL
 // ═══════════════════════════════════════════
 async function callClaude(system, messages, maxTokens = 800) {
-  // DEMO MODE: simulate responses without API key
-  if (!ANTHROPIC_API_KEY || ANTHROPIC_API_KEY === 'YOUR_ANTHROPIC_API_KEY') {
-    return demoResponse(system, messages);
-  }
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  // Route through serverless function - keeps API key secure on server
+  const res = await fetch('/api/chat', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: maxTokens,
-      system,
-      messages,
-    }),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system, messages, max_tokens: maxTokens }),
   });
   const data = await res.json();
-  if (data.error) throw new Error(data.error.message);
-  return data.content[0].text;
+  if (data.error) throw new Error(data.error);
+  return data.text;
 }
 
 // DEMO: simulated onboarding conversation
