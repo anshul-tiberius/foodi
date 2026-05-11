@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Savor — Food You Love That Loves You Back</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --cream:       #FAF7F2;
+      --cream-dark:  #F2EDE4;
+      --green:       #1A3A2A;
+      --green-mid:   #2D5C42;
+      --green-light: #E8F0EB;
+      --amber:       #C47B2B;
+      --amber-light: #FAEEDA;
+      --text:        #1C1C1C;
+      --text-mid:    #4A4A4A;
+      --text-light:  #8A8A8A;
+      --white:       #FFFFFF;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:       16px;
+      --radius-sm:    10px;
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── SCREEN SYSTEM ── */
+    .screen {
+      display: none;
+      min-height: 100dvh;
+      width: 100%;
+    }
+    .screen.active { display: flex; flex-direction: column; }
+
+    /* ════════════════════════════════════════
+       SCREEN 1 — LANDING PAGE
+    ════════════════════════════════════════ */
+    #screen-landing {
+      background: var(--cream);
+      position: relative;
+    }
+
+    /* Nav */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      position: relative;
+      z-index: 10;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--green);
+      letter-spacing: 0.02em;
+    }
+    .nav-tagline {
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 12px 24px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 12vw, 60px);
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .hero-headline em {
+      font-style: italic;
+      font-weight: 300;
+    }
+    .hero-subhead {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-light);
+      margin-bottom: 12px;
+      letter-spacing: 0.01em;
+    }
+    .hero-body {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-mid);
+      margin-bottom: 20px;
+    }
+
+    /* Hero image grid: left tall + right 2 stacked */
+    .hero-images {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 8px;
+      margin-bottom: 28px;
+      height: 260px;
+      max-height: 260px;
+    }
+    .hero-img-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 260px;
+    }
+    .hero-img-col .hero-img {
+      flex: 1;
+      min-height: 0;
+    }
+    .hero-img {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-img:first-child {
+      height: 260px;
+    }
+    .hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+    }
+    .hero-img.ph-1,
+    .hero-img.ph-2,
+    .hero-img.ph-3 {
+      position: relative;
+    }
+    /* Placeholder gradients shown when images haven't loaded yet */
+    .hero-img.ph-1 { background: linear-gradient(145deg, #b5cdb8 0%, #7a9e88 100%); }
+    .hero-img.ph-2 { background: linear-gradient(145deg, #e2caaa 0%, #c4a070 100%); }
+    .hero-img.ph-3 { background: linear-gradient(145deg, #d4b896 0%, #a07850 100%); }
+
+    /* How it works */
+    .how-section {
+      padding: 0 24px 24px;
+      border-bottom: 1px solid var(--cream-dark);
+      margin-bottom: 0;
+    }
+    .how-tagline {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--green);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .how-body {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-mid);
+    }
+
+    /* Steps — kept in CSS but not used in HTML, safe to leave */
+    .step-num {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--green-light);
+      line-height: 1;
+      min-width: 28px;
+    }
+    .step-text h4 {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+    .step-text p {
+      font-size: 13px;
+      color: var(--text-light);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    /* Email capture */
+    .email-section {
+      padding: 0 24px 40px;
+    }
+    .email-card {
+      background: var(--green);
+      border-radius: 20px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .email-card::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .email-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -20px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+    }
+    .email-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+    .email-title em { font-style: italic; font-weight: 300; }
+    .email-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .email-input-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .email-input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .email-input::placeholder { color: rgba(255,255,255,0.45); }
+    .email-input:focus { border-color: rgba(255,255,255,0.5); }
+    .btn-try {
+      width: 100%;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--amber);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 20px rgba(196,123,43,0.4);
+    }
+    .btn-try:active { transform: scale(0.98); }
+    .email-note {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 10px;
+    }
+
+    /* ════════════════════════════════════════
+       SCREEN 2 — ONBOARDING CHAT
+    ════════════════════════════════════════ */
+    #screen-onboarding {
+      background: var(--cream);
+      flex-direction: column;
+    }
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--white);
+      border-bottom: 1px solid var(--cream-dark);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .chat-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .chat-header-info h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--green);
+    }
+    .chat-status {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 300;
+      transition: opacity 0.3s;
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+    .msg {
+      display: flex;
+      gap: 8px;
+      max-width: 85%;
+      animation: msgIn 0.3s ease forwards;
+    }
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .msg.savor { align-self: flex-start; }
+    .msg.user  { align-self: flex-end; flex-direction: row-reverse; }
+    .msg-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 12px;
+      color: var(--white);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .msg-bubble {
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 15px;
+      line-height: 1.55;
+      font-weight: 300;
+    }
+    .msg.savor .msg-bubble {
+      background: var(--white);
+      color: var(--text);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .msg.user .msg-bubble {
+      background: var(--green);
+      color: var(--white);
+      border-bottom-right-radius: 4px;
+    }
+    .typing-indicator {
+      display: flex;
+      gap: 5px;
+      padding: 14px 18px;
+      align-items: center;
+    }
+    .typing-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--text-light);
+      animation: typingBounce 1.2s infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+    .chat-input-area {
+      padding: 12px 16px 20px;
+      background: var(--white);
+      border-top: 1px solid var(--cream-dark);
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+    .chat-input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 24px;
+      border: 1.5px solid var(--cream-dark);
+      background: var(--cream);
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      resize: none;
+      min-height: 46px;
+      max-height: 120px;
+      transition: border-color 0.2s;
+      line-height: 1.4;
+    }
+    .chat-input:focus { border-color: var(--green-mid); }
+    .btn-send, .btn-mic {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-send { background: var(--green); }
+    .btn-send:active { transform: scale(0.93); }
+    .btn-mic { background: var(--cream-dark); }
+    .btn-mic.recording { background: #ff4444; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,68,68,0.4)} 50%{box-shadow:0 0 0 8px rgba(255,68,68,0)} }
+    .btn-send svg, .btn-mic svg { width: 18px; height: 18px; }
+    .btn-send svg { stroke: white; }
+    .btn-mic svg { stroke: var(--text-mid); }
+    .btn-mic.recording svg { stroke: white; }
+
+    /* ════════════════════════════════════════
+       SCREEN 3 — HOLDING / LOADING
+    ════════════════════════════════════════ */
+    #screen-holding {
+      background: var(--green);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    #screen-holding::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: -100px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+    }
+    #screen-holding::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: -80px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+    }
+    .holding-logo {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .holding-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+    }
+    .holding-line-wrap {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+    .holding-line {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.85);
+      transition: opacity 0.7s ease;
+      line-height: 1.4;
+      text-align: center;
+    }
+    .holding-gif {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: rgba(255,255,255,0.08);
+      position: relative;
+      z-index: 1;
+      margin: 0 auto 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .holding-gif img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .holding-gif-fallback {
+      font-size: 60px;
+    }
+    .holding-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+    .holding-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      animation: holdingPulse 1.8s infinite;
+    }
+    .holding-dot:nth-child(2) { animation-delay: 0.3s; }
+    .holding-dot:nth-child(3) { animation-delay: 0.6s; }
+    @keyframes holdingPulse { 0%,100%{opacity:0.25} 50%{opacity:1} }
+
+    /* ════════════════════════════════════════
+       SCREEN 4 — WEEKLY MEAL PLAN
+    ════════════════════════════════════════ */
+    #screen-plan {
+      background: var(--cream);
+      flex-direction: column;
+    }
+    .plan-header {
+      padding: 20px 20px 0;
+      background: var(--white);
+    }
+    .plan-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .plan-logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--green);
+    }
+    .btn-talk {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 24px;
+      border: 1.5px solid var(--green);
+      background: transparent;
+      color: var(--green);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-talk:active { background: var(--green); color: white; }
+    .week-vibe {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--text-light);
+      padding: 4px 0 14px;
+    }
+    .day-tabs {
+      display: flex;
+      overflow-x: auto;
+      gap: 4px;
+      padding: 0 0 0 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .day-tabs::-webkit-scrollbar { display: none; }
+    .day-tab {
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-light);
+      border: none;
+      background: none;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: var(--font-body);
+    }
+    .day-tab.active {
+      color: var(--green);
+      border-bottom-color: var(--green);
+    }
+    .plan-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .day-total-bar {
+      background: var(--green-light);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .day-total-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .day-total-val {
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 400;
+    }
+    .meal-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    .meal-type-badge {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 6px;
+    }
+    .meal-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--green);
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+    .meal-desc {
+      font-size: 13px;
+      color: var(--text-light);
+      font-weight: 300;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .meal-macros {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .macro-chip {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--cream-dark);
+      color: var(--text-mid);
+    }
+    .macro-chip.kcal { background: var(--amber-light); color: var(--amber); }
+    .allergen-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .allergen-chip {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: #FFF3E0;
+      color: #E65100;
+      letter-spacing: 0.04em;
+    }
+    .meal-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--cream-dark);
+    }
+    .btn-meal-detail {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--green);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-share {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--cream-dark);
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-share svg { width: 16px; height: 16px; stroke: var(--text-light); }
+
+    /* ════════════════════════════════════════
+       SCREEN 5 — DISH DETAIL
+    ════════════════════════════════════════ */
+    #screen-dish {
+      background: var(--cream);
+      flex-direction: column;
+    }
+    .dish-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--white);
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .btn-back {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--cream-dark);
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .btn-back svg { width: 18px; height: 18px; stroke: var(--text); }
+    .dish-header h2 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--green);
+    }
+    .dish-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 20px 32px;
+    }
+    .dish-hero-img {
+      width: 100%;
+      height: 220px;
+      border-radius: var(--radius);
+      background: var(--cream-dark);
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+    .dish-hero-ph {
+      width: 100%;
+      height: 220px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #c8d8c0 0%, #8fb09a 100%);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+    }
+    .dish-type {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    .dish-name {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--green);
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .dish-desc {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.65;
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+    .dish-section-title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+    .dish-macros-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .macro-box {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .macro-box-val {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--green);
+      line-height: 1;
+    }
+    .macro-box-label {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 4px;
+      font-weight: 300;
+    }
+    .dish-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .dish-tag {
+      font-size: 12px;
+      font-weight: 400;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: var(--green-light);
+      color: var(--green);
+    }
+    .btn-recipe {
+      width: 100%;
+      padding: 18px;
+      border-radius: var(--radius);
+      border: none;
+      background: var(--green);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      text-decoration: none;
+    }
+    .btn-recipe:active { opacity: 0.85; }
+    .btn-recipe svg { width: 18px; height: 18px; stroke: white; fill: none; }
+
+    /* ════════════════════════════════════════
+       FEEDBACK MODAL
+    ════════════════════════════════════════ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-sheet {
+      background: var(--white);
+      border-radius: 24px 24px 0 0;
+      padding: 24px 20px 36px;
+      width: 100%;
+      max-width: 480px;
+      animation: sheetUp 0.3s ease;
+    }
+    @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-handle {
+      width: 36px; height: 4px;
+      border-radius: 2px;
+      background: var(--cream-dark);
+      margin: 0 auto 20px;
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .modal-sub {
+      font-size: 13px;
+      color: var(--text-light);
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+    .feedback-input {
+      width: 100%;
+      min-height: 100px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--cream-dark);
+      background: var(--cream);
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      resize: none;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .feedback-input:focus { border-color: var(--green-mid); }
+    .modal-btns {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-cancel {
+      flex: 1;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--cream-dark);
+      background: none;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-mid);
+      cursor: pointer;
+    }
+    .btn-regen {
+      flex: 2;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--green);
+      color: white;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* ── UTILITIES ── */
+    .hidden { display: none !important; }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ── MOBILE SAFE AREA ── */
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      .chat-input-area, .email-section { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+    }
+
+    /* ── DESKTOP CENTERING ── */
+    @media (min-width: 520px) {
+      body { display: flex; justify-content: center; background: #E8E3DB; }
+      .screen {
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 8px 60px rgba(0,0,0,0.15);
+        min-height: 100dvh;
+      }
+      .modal-sheet { max-width: 420px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════ SCREEN 1: LANDING ════════ -->
+<div id="screen-landing" class="screen active">
+
+  <nav class="nav">
+    <div class="nav-logo">Savor</div>
+  </nav>
+
+  <div class="hero">
+    <h1 class="hero-headline">Food you love,<br>that loves <em>you</em> back.</h1>
+    <p class="hero-subhead">Savor your taste. Create delicious meal plans that know you, and what you need.</p>
+    <p class="hero-body">With just a 2-minute conversation I will learn about you, your health goals, what you love to eat, and what you don’t. At the end — a full week of meals that feels unmistakably, deliciously yours.</p>
+
+    <div class="hero-images">
+      <div class="hero-img ph-1">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80" alt="A beautiful dish" loading="lazy" />
+      </div>
+      <div class="hero-img-col">
+        <div class="hero-img ph-2">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80" alt="Fresh food" loading="lazy" />
+        </div>
+        <div class="hero-img ph-3">
+          <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80" alt="A delicious meal" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="email-section">
+    <div class="email-card">
+      <h2 class="email-title"><em>Try it.</em> Takes 2 minutes.</h2>
+      <p class="email-sub">No credit card. Just food you love.</p>
+      <div class="email-input-wrap">
+        <input type="email" id="user-email" class="email-input" placeholder="your@email.com" autocomplete="email" />
+        <button class="btn-try" onclick="startOnboarding()">Start now &rarr;</button>
+      </div>
+      <p class="email-note">We save your plan and send it to you.</p>
+    </div>
+  </div>
+
+</div><!-- /screen-landing -->
+
+
+<!-- ════════ SCREEN 2: ONBOARDING CHAT ════════ -->
+<div id="screen-onboarding" class="screen">
+
+  <div class="chat-header">
+    <div class="chat-avatar">S</div>
+    <div class="chat-header-info">
+      <h3>Savor</h3>
+      <div class="chat-status" id="chat-status">Getting to know you…</div>
+    </div>
+  </div>
+
+  <div class="chat-messages" id="chat-messages"></div>
+
+  <div class="chat-input-area">
+    <textarea
+      id="chat-input"
+      class="chat-input"
+      placeholder="Type your answer…"
+      rows="1"
+      onkeydown="handleChatKey(event)"
+      oninput="autoResize(this)"
+    ></textarea>
+    <button class="btn-mic" id="btn-mic" onclick="toggleMic()" title="Voice input">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="23"/>
+        <line x1="8" y1="23" x2="16" y2="23"/>
+      </svg>
+    </button>
+    <button class="btn-send" onclick="sendMessage()" title="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+
+</div><!-- /screen-onboarding -->
+
+
+<!-- ════════ SCREEN 3: HOLDING ════════ -->
+<div id="screen-holding" class="screen">
+  <div class="holding-logo">Savor</div>
+  <p class="holding-sub">Building your week</p>
+
+  <div class="holding-line-wrap">
+    <p class="holding-line" id="holding-line">Dipping into nostalgia…</p>
+  </div>
+
+  <div class="holding-gif">
+    <img
+      src="https://media.tenor.com/your-gif-placeholder/chef.gif"
+      alt="Chef cooking"
+      id="chef-gif"
+      onerror="this.parentElement.innerHTML='<div class=\'holding-gif-fallback\'>👨‍🍳</div>'"
+    />
+  </div>
+
+  <div class="holding-dots">
+    <div class="holding-dot"></div>
+    <div class="holding-dot"></div>
+    <div class="holding-dot"></div>
+  </div>
+</div><!-- /screen-holding -->
+
+
+<!-- ════════ SCREEN 4: WEEKLY PLAN ════════ -->
+<div id="screen-plan" class="screen">
+
+  <div class="plan-header">
+    <div class="plan-header-top">
+      <div class="plan-logo">Savor</div>
+      <button class="btn-talk" onclick="openFeedback()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Talk to Savor
+      </button>
+    </div>
+    <p class="week-vibe" id="week-vibe"></p>
+    <div class="day-tabs" id="day-tabs"></div>
+  </div>
+
+  <div class="plan-body" id="plan-body"></div>
+
+</div><!-- /screen-plan -->
+
+
+<!-- ════════ SCREEN 5: DISH DETAIL ════════ -->
+<div id="screen-dish" class="screen">
+
+  <div class="dish-header">
+    <button class="btn-back" onclick="showScreen('plan')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <h2 id="dish-header-name">Dish</h2>
+  </div>
+
+  <div class="dish-body" id="dish-body"></div>
+
+</div><!-- /screen-dish -->
+
+
+<!-- ════════ FEEDBACK MODAL ════════ -->
+<div class="modal-overlay" id="feedback-modal" onclick="closeFeedbackOnOverlay(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 class="modal-title">Talk to Savor</h3>
+    <p class="modal-sub">Tell us what to change — more variety, different cuisines, swap a meal. We'll rebuild your week.</p>
+    <textarea class="feedback-input" id="feedback-input" placeholder="E.g. 'Too much paneer this week' or 'Add more South Indian food'…"></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeFeedback()">Cancel</button>
+      <button class="btn-regen" onclick="regeneratePlan()">Regenerate Plan →</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ═══════════════════════════════════════════
+// CONFIGURATION — fill these in
+// ═══════════════════════════════════════════
+const ANTHROPIC_API_KEY = 'YOUR_ANTHROPIC_API_KEY'; // ← you'll paste this in
+const GOOGLE_SHEET_WEBHOOK = 'https://script.google.com/macros/s/AKfycbz6oMQILCy4vUpzbOvDZkfo99wjz5eUAfjYDZMGogwCfoFv5-Xlw4OWPVvH-iKKH6M1/exec'; // ← you'll paste this in after setting up the sheet
+
+// ═══════════════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════════════
+let appState = {
+  screen: 'landing',
+  email: '',
+  chatMessages: [],        // [{role, content}] for API
+  userProfile: null,
+  mealPlan: null,
+  activeDay: 0,
+  currentDish: null,
+  isTyping: false,
+  recognition: null,
+  isRecording: false,
+};
+
+// ═══════════════════════════════════════════
+// SCREEN NAVIGATION
+// ═══════════════════════════════════════════
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + name);
+  if (el) { el.classList.add('active'); appState.screen = name; }
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════════
+// SCREEN 1 → START ONBOARDING
+// ═══════════════════════════════════════════
+function startOnboarding() {
+  const emailEl = document.getElementById('user-email');
+  const email = emailEl.value.trim();
+  if (!email || !email.includes('@')) {
+    emailEl.focus();
+    emailEl.style.borderColor = 'rgba(255,100,100,0.7)';
+    setTimeout(() => emailEl.style.borderColor = '', 1500);
+    return;
+  }
+  appState.email = email;
+  showScreen('onboarding');
+  startChat();
+}
+
+// ═══════════════════════════════════════════
+// SYSTEM PROMPTS
+// ═══════════════════════════════════════════
+const ONBOARDING_SYSTEM = `You are Savor's onboarding voice — warm, curious, and genuinely interested in the person you're talking to. Your job is to learn enough about this person to build a weekly meal plan that will genuinely delight them.
+
+Your very first message must:
+- Welcome them warmly
+- Before asking, briefly explain WHY you're asking questions: because their food history, where they grew up, and what reminds them of home is what makes a plan feel truly theirs — not generic
+- Set an emotional, nostalgic frame — home, childhood kitchen, food memories — not health or diet
+- Then ask only: what is your name?
+
+Rules for the entire conversation:
+- Ask ONE question at a time. Always. Never bundle questions.
+- Build on what they actually said — reference their specific answers naturally
+- Be warm and curious throughout — like a smart friend, not a form
+- Never use the word "diet" — say "food goals" or "how you want to feel"
+- Never assume cultural background, dietary preferences, or restrictions — always ask
+- Never assume a person's surname — always ask separately
+- Never default to "he/him" for unknown people — use "she/her" or "they/them"
+- Medical avoids must be captured carefully — frame it warmly
+
+Cover these areas across approximately 12–15 questions:
+name, age, city of residence, where they grew up, cultural and food background, household members and cook situation, cuisine loves, hard nos, meat preferences, health goals, medical restrictions, intolerances, activity level, meal timing, joy statement.
+
+When you have gathered enough information, output the completed profile as JSON wrapped in <profile></profile> tags at the very end of your final conversational message. Do not announce this — just output it naturally.
+
+Profile JSON structure:
+{"personal":{"name":"","age":null,"city":"","grew_up_in":"","cultural_background":""},"household":{"members":[],"has_paid_cook":false,"cook_schedule":{"morning_minutes":null,"evening_minutes":null},"no_cook_day":null,"shared_meals":true},"body":{"current_weight_kg":null,"target_weight_kg":null,"primary_goal":""},"activity":{"level":"sedentary","description":""},"meal_timing":{"breakfast":"","lunch":"","snack":"","dinner":""},"cuisine_preferences":{"loves":[],"comfort_food":"","favourite_format":"","flavour_notes":""},"food_loves":[],"hard_nos":[],"dietary_restrictions":{"meat_preference":"","specific_avoids":[],"intolerances":[],"medical_avoids":[],"medical_context":""},"seeds_or_supplements":[],"joy_statement":"","macro_targets":{"calories":null,"protein_g":null,"carbs_g":null,"fat_g":null}}
+
+Calculate macro_targets based on what you learned:
+- Sedentary women aiming to lose weight: ~1300–1400 kcal
+- Sedentary men aiming to lose weight: ~1600–1800 kcal
+- Lightly active women: ~1400–1600 kcal
+- Lightly active men: ~1800–2000 kcal
+- Protein: ~1.0–1.2g per kg of target body weight
+- Carbs: ~35–40% of calories
+- Fat: ~28–32% of calories`;
+
+const MEAL_PLAN_SYSTEM = `You are Savor's meal planning engine. You generate weekly meal plans that are joy-first, deeply personal, health-aware, cook-friendly, and varied.
+
+Critical rules:
+- Medical avoids are ABSOLUTE — never include them anywhere, even as a garnish
+- Never include any food from the hard nos list
+- Only suggest dishes that actually exist and have real recipes findable on YouTube/Google
+- Never invent fictional dishes
+- Build entirely from what the user told you
+- Rotate cuisines across the week based on what they love
+
+Respond with valid JSON only. No markdown, no preamble.
+
+JSON structure:
+{"week_vibe":"one warm line capturing the spirit of this person's food week","days":[{"day":"Monday","vibe":"one-line mood","meals":[{"type":"breakfast","time":"9:00 am","name":"Dish name","description":"2-line description that makes you want to eat it","kcal":350,"protein_g":18,"carbs_g":40,"fat_g":10,"tags":["cuisine","format"],"allergens":[],"recipe_search":"search term for YouTube or Google","prep_note":null}],"totals":{"kcal":1800,"protein_g":120}}]}`;
+
+// ═══════════════════════════════════════════
+// CHAT ENGINE
+// ═══════════════════════════════════════════
+async function startChat() {
+  appState.chatMessages = [];
+  document.getElementById('chat-messages').innerHTML = '';
+  showTyping();
+
+  const res = await callClaude(ONBOARDING_SYSTEM, appState.chatMessages, 600);
+  hideTyping();
+
+  const clean = stripProfile(res);
+  appendMessage('savor', clean);
+  appState.chatMessages.push({ role: 'assistant', content: res });
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text || appState.isTyping) return;
+
+  input.value = '';
+  autoResize(input);
+  appendMessage('user', text);
+  appState.chatMessages.push({ role: 'user', content: text });
+
+  showTyping();
+  appState.isTyping = true;
+
+  const res = await callClaude(ONBOARDING_SYSTEM, appState.chatMessages, 600);
+  hideTyping();
+  appState.isTyping = false;
+
+  // Check for completed profile
+  const profileMatch = res.match(/<profile>([\s\S]*?)<\/profile>/);
+  if (profileMatch) {
+    try {
+      appState.userProfile = JSON.parse(profileMatch[1].trim());
+      const displayText = res.replace(/<profile>[\s\S]*?<\/profile>/, '').trim();
+      if (displayText) appendMessage('savor', displayText);
+      appState.chatMessages.push({ role: 'assistant', content: res });
+
+      // Save email + profile to Google Sheet
+      saveToSheet(appState.email, appState.userProfile);
+
+      // Update status and go to holding
+      setTimeout(() => {
+        showScreen('holding');
+        startHolding();
+      }, 1200);
+      return;
+    } catch(e) {
+      console.warn('Profile parse error', e);
+    }
+  }
+
+  const clean = stripProfile(res);
+  appendMessage('savor', clean);
+  appState.chatMessages.push({ role: 'assistant', content: res });
+
+  // Update status line
+  const msgCount = appState.chatMessages.filter(m => m.role === 'user').length;
+  const statusEl = document.getElementById('chat-status');
+  if (msgCount >= 8) statusEl.textContent = 'Almost there...';
+  else if (msgCount >= 4) statusEl.textContent = 'Getting to know you better...';
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function appendMessage(role, text) {
+  const wrap = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+
+  if (role === 'savor') {
+    div.innerHTML = `
+      <div class="msg-avatar">S</div>
+      <div class="msg-bubble">${escapeHtml(text).replace(/\n/g, '<br>')}</div>`;
+  } else {
+    div.innerHTML = `<div class="msg-bubble">${escapeHtml(text)}</div>`;
+  }
+
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function showTyping() {
+  const wrap = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg savor';
+  div.id = 'typing-msg';
+  div.innerHTML = `
+    <div class="msg-avatar">S</div>
+    <div class="msg-bubble">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>`;
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function hideTyping() {
+  const el = document.getElementById('typing-msg');
+  if (el) el.remove();
+}
+
+function stripProfile(text) {
+  return text.replace(/<profile>[\s\S]*?<\/profile>/, '').trim();
+}
+
+// ═══════════════════════════════════════════
+// VOICE INPUT
+// ═══════════════════════════════════════════
+function toggleMic() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert('Voice input is not supported in your browser. Please type your answer.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-mic');
+
+  if (appState.isRecording) {
+    appState.recognition.stop();
+    appState.isRecording = false;
+    btn.classList.remove('recording');
+    return;
+  }
+
+  const rec = new SpeechRecognition();
+  rec.lang = 'en-IN';
+  rec.continuous = false;
+  rec.interimResults = false;
+
+  rec.onresult = (e) => {
+    const transcript = e.results[0][0].transcript;
+    const input = document.getElementById('chat-input');
+    input.value = transcript;
+    autoResize(input);
+  };
+  rec.onend = () => {
+    appState.isRecording = false;
+    btn.classList.remove('recording');
+  };
+  rec.onerror = () => {
+    appState.isRecording = false;
+    btn.classList.remove('recording');
+  };
+
+  rec.start();
+  appState.recognition = rec;
+  appState.isRecording = true;
+  btn.classList.add('recording');
+}
+
+// ═══════════════════════════════════════════
+// HOLDING SCREEN
+// ═══════════════════════════════════════════
+const LOADING_LINES = [
+  "Shopping for vegetables...",
+  "Dipping into nostalgia...",
+  "Going back to your childhood kitchen...",
+  "Sniffing the box of masala...",
+  "Asking your nani for the secret recipe...",
+  "Negotiating with the sabziwala...",
+  "Tasting the dal one more time...",
+  "Convincing the cook it is not too spicy...",
+  "Rummaging through the spice drawer...",
+  "Dreaming up your Tuesday dinner...",
+  "Weighing the joy-to-guilt ratio...",
+  "Consulting the family WhatsApp group...",
+  "Finding the good ghee at the back of the shelf...",
+  "Arguing about whether it needs more jeera...",
+  "Packing tomorrows tiffin with love...",
+  "Making sure Sunday takes care of itself...",
+];
+
+let holdingInterval = null;
+let lineIndex = 0;
+
+function startHolding() {
+  lineIndex = 0;
+  updateHoldingLine();
+  holdingInterval = setInterval(updateHoldingLine, 2800);
+
+  // Set chef gif
+  const gifEl = document.getElementById('chef-gif');
+  // Using a cooking-themed animated gif
+  gifEl.src = 'https://media.tenor.com/2743027201642772728/transparent-food-cooking-penguin-chef.gif';
+
+  // Generate meal plan
+  generateMealPlan();
+}
+
+function updateHoldingLine() {
+  const el = document.getElementById('holding-line');
+  el.style.opacity = 0;
+  setTimeout(() => {
+    el.textContent = LOADING_LINES[lineIndex % LOADING_LINES.length];
+    el.style.opacity = 1;
+    lineIndex++;
+  }, 350);
+}
+
+async function generateMealPlan(feedback = null) {
+  const profileStr = JSON.stringify(appState.userProfile);
+  const userMsg = feedback
+    ? `Here is the user profile: ${profileStr}\n\nThe user has given this feedback on their previous plan: "${feedback}"\n\nPlease generate a new 7-day meal plan incorporating this feedback.`
+    : `Generate a 7-day meal plan for this person: ${profileStr}`;
+
+  try {
+    const res = await callClaude(MEAL_PLAN_SYSTEM, [{ role: 'user', content: userMsg }], 4000);
+    const clean = res.replace(/```json|```/g, '').trim();
+    appState.mealPlan = JSON.parse(clean);
+    clearInterval(holdingInterval);
+    renderPlan();
+    showScreen('plan');
+  } catch(e) {
+    console.error('Meal plan generation error', e);
+    // Retry once
+    setTimeout(() => generateMealPlan(feedback), 2000);
+  }
+}
+
+// ═══════════════════════════════════════════
+// SCREEN 4: RENDER MEAL PLAN
+// ═══════════════════════════════════════════
+function renderPlan() {
+  const plan = appState.mealPlan;
+  if (!plan) return;
+
+  document.getElementById('week-vibe').textContent = plan.week_vibe || '';
+
+  // Day tabs
+  const tabsEl = document.getElementById('day-tabs');
+  tabsEl.innerHTML = '';
+  const DAYS_SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  plan.days.forEach((day, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'day-tab' + (i === appState.activeDay ? ' active' : '');
+    btn.textContent = DAYS_SHORT[i] || day.day.slice(0,3);
+    btn.onclick = () => selectDay(i);
+    tabsEl.appendChild(btn);
+  });
+
+  renderDay(appState.activeDay);
+}
+
+function selectDay(i) {
+  appState.activeDay = i;
+  document.querySelectorAll('.day-tab').forEach((t,j) => t.classList.toggle('active', j===i));
+  renderDay(i);
+}
+
+function renderDay(i) {
+  const day = appState.mealPlan.days[i];
+  if (!day) return;
+
+  const body = document.getElementById('plan-body');
+  body.innerHTML = '';
+
+  // Day total bar
+  if (day.totals) {
+    const bar = document.createElement('div');
+    bar.className = 'day-total-bar';
+    bar.innerHTML = `
+      <span class="day-total-label">Today</span>
+      <span class="day-total-val">${day.totals.kcal || '—'} kcal · ${day.totals.protein_g || '—'}g protein</span>`;
+    body.appendChild(bar);
+  }
+
+  // Meal cards
+  day.meals.forEach((meal, mi) => {
+    const card = document.createElement('div');
+    card.className = 'meal-card';
+
+    const allergenHtml = (meal.allergens || []).length
+      ? `<div class="allergen-chips">${meal.allergens.map(a => `<span class="allergen-chip">${a}</span>`).join('')}</div>`
+      : '';
+
+    card.innerHTML = `
+      <div class="meal-type-badge">${meal.type} · ${meal.time || ''}</div>
+      <div class="meal-name">${escapeHtml(meal.name)}</div>
+      <div class="meal-desc">${escapeHtml(meal.description)}</div>
+      <div class="meal-macros">
+        <span class="macro-chip kcal">${meal.kcal} kcal</span>
+        <span class="macro-chip">P ${meal.protein_g}g</span>
+        <span class="macro-chip">C ${meal.carbs_g}g</span>
+        <span class="macro-chip">F ${meal.fat_g}g</span>
+      </div>
+      ${allergenHtml}
+      <div class="meal-card-footer">
+        <button class="btn-meal-detail" onclick="showDish(${i},${mi})">See recipe →</button>
+        <button class="btn-share" onclick="shareDish(${i},${mi})" title="Share">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+        </button>
+      </div>`;
+    body.appendChild(card);
+  });
+
+  body.scrollTop = 0;
+}
+
+// ═══════════════════════════════════════════
+// SCREEN 5: DISH DETAIL
+// ═══════════════════════════════════════════
+function showDish(dayIdx, mealIdx) {
+  const meal = appState.mealPlan.days[dayIdx].meals[mealIdx];
+  appState.currentDish = meal;
+
+  document.getElementById('dish-header-name').textContent = meal.name;
+
+  const body = document.getElementById('dish-body');
+  const recipeUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(meal.recipe_search || meal.name)}`;
+  const tagsHtml = (meal.tags || []).map(t => `<span class="dish-tag">${t}</span>`).join('');
+
+  body.innerHTML = `
+    <div class="dish-hero-ph">🍽️</div>
+    <div class="dish-type">${meal.type}</div>
+    <h1 class="dish-name">${escapeHtml(meal.name)}</h1>
+    <p class="dish-desc">${escapeHtml(meal.description)}</p>
+
+    <p class="dish-section-title">Nutrition</p>
+    <div class="dish-macros-grid">
+      <div class="macro-box">
+        <div class="macro-box-val">${meal.kcal}</div>
+        <div class="macro-box-label">Calories</div>
+      </div>
+      <div class="macro-box">
+        <div class="macro-box-val">${meal.protein_g}g</div>
+        <div class="macro-box-label">Protein</div>
+      </div>
+      <div class="macro-box">
+        <div class="macro-box-val">${meal.carbs_g}g</div>
+        <div class="macro-box-label">Carbs</div>
+      </div>
+      <div class="macro-box">
+        <div class="macro-box-val">${meal.fat_g}g</div>
+        <div class="macro-box-label">Fat</div>
+      </div>
+    </div>
+
+    ${tagsHtml ? `<p class="dish-section-title">Tags</p><div class="dish-tags">${tagsHtml}</div>` : ''}
+
+    <a href="${recipeUrl}" target="_blank" rel="noopener" class="btn-recipe">
+      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+      </svg>
+      Find Recipe on YouTube
+    </a>`;
+
+  showScreen('dish');
+}
+
+// ═══════════════════════════════════════════
+// SHARE
+// ═══════════════════════════════════════════
+function shareDish(dayIdx, mealIdx) {
+  const meal = appState.mealPlan.days[dayIdx].meals[mealIdx];
+  const text = `${meal.name}\n${meal.description}\n\n${meal.kcal} kcal · ${meal.protein_g}g protein\n\nvia Savor — food you love that loves you back 🍃`;
+
+  if (navigator.share) {
+    navigator.share({ title: meal.name, text }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+  }
+}
+
+// ═══════════════════════════════════════════
+// FEEDBACK + REGENERATE
+// ═══════════════════════════════════════════
+function openFeedback() {
+  document.getElementById('feedback-input').value = '';
+  document.getElementById('feedback-modal').classList.add('open');
+}
+function closeFeedback() {
+  document.getElementById('feedback-modal').classList.remove('open');
+}
+function closeFeedbackOnOverlay(e) {
+  if (e.target === e.currentTarget) closeFeedback();
+}
+
+async function regeneratePlan() {
+  const feedback = document.getElementById('feedback-input').value.trim();
+  if (!feedback) return;
+  closeFeedback();
+  showScreen('holding');
+  startHoldingLines();
+  await generateMealPlan(feedback);
+}
+
+function startHoldingLines() {
+  lineIndex = 0;
+  updateHoldingLine();
+  holdingInterval = setInterval(updateHoldingLine, 2800);
+}
+
+// ═══════════════════════════════════════════
+// CLAUDE API CALL
+// ═══════════════════════════════════════════
+async function callClaude(system, messages, maxTokens = 800) {
+  // DEMO MODE: simulate responses without API key
+  if (!ANTHROPIC_API_KEY || ANTHROPIC_API_KEY === 'YOUR_ANTHROPIC_API_KEY') {
+    return demoResponse(system, messages);
+  }
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: maxTokens,
+      system,
+      messages,
+    }),
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.content[0].text;
+}
+
+// DEMO: simulated onboarding conversation
+function demoResponse(system, messages) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const userMsgs = messages.filter(m => m.role === 'user');
+      const count = userMsgs.length;
+      const last = count > 0 ? userMsgs[count-1].content.toLowerCase() : '';
+
+      // Meal plan generation
+      if (system.includes('meal planning engine')) {
+        resolve(JSON.stringify(DEMO_MEAL_PLAN));
+        return;
+      }
+
+      // Onboarding conversation
+      if (count === 0) {
+        resolve("Hey! Before I put together your meal plan, I want to get to know you a little. Your food history, where you grew up, what kind of food reminds you of home — that's what makes a plan feel truly yours, not just another list of healthy meals.\n\nOne tip: hit the mic button and just talk. I find people express themselves so much better that way.\n\nLet's start simple — what's your name?");
+      } else if (count === 1) {
+        const name = last.split(' ')[0];
+        appState.demoName = name.charAt(0).toUpperCase() + name.slice(1);
+        resolve("Lovely name! And where do you live right now, " + appState.demoName + "? And how old are you?");
+      } else if (count === 2) {
+        resolve("Nice! And where did you grow up — what was the food like at home? What's your family's regional or cultural background?");
+      } else if (count === 3) {
+        resolve("That's such a rich food background. Tell me about who you eat with — is it just you, or do you have family at home? And do you cook yourself or do you have a cook?");
+      } else if (count === 4) {
+        resolve("Got it. Now the fun part — what cuisines or dishes genuinely excite you? What would you order without even thinking?");
+      } else if (count === 5) {
+        resolve("Love that! And on the flip side — any absolute hard nos? Things you won't touch, whether it's taste, texture, or just a firm no?");
+      } else if (count === 6) {
+        resolve("Understood. How do you feel about meat? Vegetarian, mostly plant-based, or do you eat meat — and if so, what kinds do you enjoy?");
+      } else if (count === 7) {
+        resolve("Perfect. Let's talk about your goals with food — are you looking to lose weight, maintain energy, feel lighter, or something else?");
+      } else if (count === 8) {
+        resolve("Has a doctor or specialist ever told you to be mindful of specific foods — anything related to a health condition or a protocol you're on?");
+      } else if (count === 9) {
+        resolve("And walk me through a typical weekday — roughly when do you eat breakfast, lunch, a snack, dinner?");
+      } else if (count === 10) {
+        resolve("How active are you right now — gym, walking, or mostly at a desk?");
+      } else {
+        const demoProfile = JSON.stringify({"personal":{"name": appState.demoName||"Friend","age":32,"city":"Mumbai","grew_up_in":"Mumbai","cultural_background":"Indian"},"household":{"members":[],"has_paid_cook":false,"cook_schedule":{"morning_minutes":30,"evening_minutes":30},"no_cook_day":null,"shared_meals":true},"body":{"current_weight_kg":75,"target_weight_kg":65,"primary_goal":"weight loss"},"activity":{"level":"light","description":"walks daily"},"meal_timing":{"breakfast":"9:00 am","lunch":"1:30 pm","snack":"5:00 pm","dinner":"9:00 pm"},"cuisine_preferences":{"loves":["Indian","Mediterranean","Asian"],"comfort_food":"dal rice","favourite_format":"bowls","flavour_notes":"bold and savoury"},"food_loves":["paneer","chicken","salads"],"hard_nos":["bitter gourd"],"dietary_restrictions":{"meat_preference":"chicken and eggs","specific_avoids":[],"intolerances":[],"medical_avoids":[],"medical_context":""},"seeds_or_supplements":[],"joy_statement":"A week I actually look forward to","macro_targets":{"calories":1800,"protein_g":120,"carbs_g":160,"fat_g":58}});
+        resolve("Last one — if Savor could do one thing that made you feel understood — what would that be? I have everything I need. <profile>" + demoProfile + "</profile>");
+      }
+    }, 900 + Math.random() * 600);
+  });
+}
+
+const DEMO_MEAL_PLAN = {
+  "week_vibe": "A week that tastes like home, feels like joy, and leaves you energised.",
+  "days": [
+    {
+      "day": "Monday",
+      "vibe": "Start the week grounded and nourished",
+      "meals": [
+        {"type":"breakfast","time":"9:00 am","name":"Moong Dal Cheela with Mint Chutney","description":"Crispy golden lentil crepes packed with protein, served with a cooling mint-coriander dip. Light, filling, and deeply satisfying.","kcal":320,"protein_g":18,"carbs_g":38,"fat_g":8,"tags":["Indian","high-protein","vegetarian"],"allergens":[],"recipe_search":"moong dal cheela recipe"},
+        {"type":"lunch","time":"1:30 pm","name":"Grilled Chicken Bowl with Quinoa","description":"Tender marinated chicken over fluffy quinoa with roasted vegetables and a lemon-herb drizzle. Clean, bold flavours.","kcal":480,"protein_g":42,"carbs_g":45,"fat_g":14,"tags":["high-protein","bowl","Mediterranean"],"allergens":[],"recipe_search":"grilled chicken quinoa bowl recipe"},
+        {"type":"snack","time":"5:00 pm","name":"Hummus with Cucumber & Carrot","description":"Creamy homemade-style hummus with crisp veggie dippers. Satisfying without the slump.","kcal":180,"protein_g":8,"carbs_g":20,"fat_g":8,"tags":["Mediterranean","vegetarian","light"],"allergens":[],"recipe_search":"hummus recipe"},
+        {"type":"dinner","time":"9:00 pm","name":"Dal Tadka with Jowar Roti","description":"Comforting yellow dal with a fragrant ghee-jeera tadka, served with warm jowar flatbreads. Pure, nourishing joy.","kcal":420,"protein_g":22,"carbs_g":58,"fat_g":12,"tags":["Indian","vegetarian","comfort"],"allergens":[],"recipe_search":"dal tadka recipe jowar roti"}
+      ],
+      "totals": {"kcal": 1400, "protein_g": 90}
+    },
+    {
+      "day": "Tuesday",
+      "vibe": "Mediterranean meets Mumbai",
+      "meals": [
+        {"type":"breakfast","time":"9:00 am","name":"Greek Yogurt Parfait with Berries","description":"Thick strained yogurt layered with seasonal berries, a drizzle of honey, and crunchy seeds. Feels indulgent, is deeply nourishing.","kcal":290,"protein_g":20,"carbs_g":32,"fat_g":7,"tags":["Mediterranean","vegetarian","no-cook"],"allergens":["dairy"],"recipe_search":"greek yogurt parfait berries recipe"},
+        {"type":"lunch","time":"1:30 pm","name":"Paneer Tikka Salad","description":"Smoky griddled paneer cubes over a crisp salad of greens, cucumber, tomato and a tangy chaat masala dressing.","kcal":420,"protein_g":28,"carbs_g":22,"fat_g":24,"tags":["Indian","vegetarian","salad"],"allergens":["dairy"],"recipe_search":"paneer tikka salad recipe"},
+        {"type":"snack","time":"5:00 pm","name":"Roasted Makhana","description":"Ghee-roasted fox nuts with rock salt and a pinch of turmeric. Crunchy, light, and endlessly snackable.","kcal":160,"protein_g":5,"carbs_g":24,"fat_g":5,"tags":["Indian","light","vegan"],"allergens":[],"recipe_search":"roasted makhana recipe"},
+        {"type":"dinner","time":"9:00 pm","name":"Chicken Shawarma Bowl","description":"Spiced chicken strips with garlic sauce, pickled onions and warm pita on the side. Bold Middle-Eastern flavours at home.","kcal":510,"protein_g":44,"carbs_g":42,"fat_g":16,"tags":["Lebanese","high-protein","bowl"],"allergens":["gluten"],"recipe_search":"chicken shawarma bowl recipe"}
+      ],
+      "totals": {"kcal": 1380, "protein_g": 97}
+    },
+    {
+      "day": "Wednesday",
+      "vibe": "Midweek comfort, no compromise",
+      "meals": [
+        {"type":"breakfast","time":"9:00 am","name":"Oats Upma with Vegetables","description":"Savoury oats cooked with mustard seeds, curry leaves, and seasonal vegetables. Comfort in a bowl, ready in 10 minutes.","kcal":300,"protein_g":12,"carbs_g":48,"fat_g":8,"tags":["Indian","vegetarian","quick"],"allergens":["gluten"],"recipe_search":"oats upma recipe"},
+        {"type":"lunch","time":"1:30 pm","name":"Rajma with Brown Rice","description":"Slow-simmered kidney beans in a rich tomato-onion masala, served over nutty brown rice. The ultimate midweek reset.","kcal":460,"protein_g":24,"carbs_g":72,"fat_g":8,"tags":["Indian","vegetarian","high-fibre"],"allergens":[],"recipe_search":"rajma recipe brown rice"},
+        {"type":"snack","time":"5:00 pm","name":"Apple with Almond Butter","description":"Crisp apple slices with a tablespoon of natural almond butter. Simple, balanced, genuinely good.","kcal":190,"protein_g":5,"carbs_g":24,"fat_g":9,"tags":["quick","no-cook","light"],"allergens":["nuts"],"recipe_search":"apple almond butter snack"},
+        {"type":"dinner","time":"9:00 pm","name":"Grilled Fish with Stir-fried Vegetables","description":"Light, flaky fish fillet with a lemon-coriander marinade, served alongside wok-tossed seasonal vegetables.","kcal":380,"protein_g":38,"carbs_g":18,"fat_g":14,"tags":["high-protein","light","Asian"],"allergens":[],"recipe_search":"grilled fish stir fry vegetables recipe"}
+      ],
+      "totals": {"kcal": 1330, "protein_g": 79}
+    },
+    {
+      "day": "Thursday",
+      "vibe": "Bold flavours, bright energy",
+      "meals": [
+        {"type":"breakfast","time":"9:00 am","name":"Egg White Bhurji with Multigrain Toast","description":"Fluffy spiced egg whites cooked with onions, tomatoes and green chilli, served with warm multigrain toast.","kcal":310,"protein_g":24,"carbs_g":28,"fat_g":9,"tags":["Indian","high-protein","quick"],"allergens":["eggs","gluten"],"recipe_search":"egg white bhurji recipe"},
+        {"type":"lunch","time":"1:30 pm","name":"Mexican Chicken Bowl","description":"Spiced chicken, black beans, corn, salsa and avocado over brown rice. Every bite is a different texture.","kcal":490,"protein_g":40,"carbs_g":52,"fat_g":15,"tags":["Mexican","bowl","high-protein"],"allergens":[],"recipe_search":"mexican chicken bowl recipe"},
+        {"type":"snack","time":"5:00 pm","name":"Chana Chaat","description":"Boiled chickpeas tossed with onion, tomato, lemon, chaat masala and fresh coriander. Mumbai in a bowl.","kcal":200,"protein_g":10,"carbs_g":30,"fat_g":4,"tags":["Indian","vegan","street-food"],"allergens":[],"recipe_search":"chana chaat recipe"},
+        {"type":"dinner","time":"9:00 pm","name":"Palak Paneer with Khapli Roti","description":"Silky spinach gravy with soft paneer, gently spiced, served with wholesome ancient-grain rotis.","kcal":430,"protein_g":26,"carbs_g":44,"fat_g":16,"tags":["Indian","vegetarian","comfort"],"allergens":["dairy"],"recipe_search":"palak paneer recipe khapli roti"}
+      ],
+      "totals": {"kcal": 1430, "protein_g": 100}
+    },
+    {
+      "day": "Friday",
+      "vibe": "End the week with something to look forward to",
+      "meals": [
+        {"type":"breakfast","time":"9:00 am","name":"Banana Oat Smoothie","description":"Blended oats, banana, almond milk and a spoon of peanut butter. Thick, filling, and takes 3 minutes.","kcal":340,"protein_g":12,"carbs_g":52,"fat_g":10,"tags":["quick","vegetarian","no-cook"],"allergens":["nuts","gluten"],"recipe_search":"banana oat smoothie recipe"},
+        {"type":"lunch","time":"1:30 pm","name":"Vietnamese Chicken Salad","description":"Shredded chicken with rice noodles, fresh herbs, crunchy peanuts, and a tangy fish sauce dressing. Light and utterly addictive.","kcal":420,"protein_g":36,"carbs_g":40,"fat_g":12,"tags":["Vietnamese","salad","high-protein"],"allergens":["nuts","gluten"],"recipe_search":"vietnamese chicken salad recipe"},
+        {"type":"snack","time":"5:00 pm","name":"Mixed Nuts & Dark Chocolate","description":"A small handful of almonds, walnuts and a square of dark chocolate. The Friday treat you deserve.","kcal":210,"protein_g":6,"carbs_g":16,"fat_g":14,"tags":["quick","no-cook"],"allergens":["nuts","dairy"],"recipe_search":"healthy nut dark chocolate snack"},
+        {"type":"dinner","time":"9:00 pm","name":"Butter Chicken (Light) with Cauliflower Rice","description":"All the warmth of butter chicken with a lighter base, served over cauliflower rice for a lower-carb Friday night.","kcal":440,"protein_g":42,"carbs_g":28,"fat_g":18,"tags":["Indian","high-protein","low-carb"],"allergens":["dairy"],"recipe_search":"light butter chicken cauliflower rice recipe"}
+      ],
+      "totals": {"kcal": 1410, "protein_g": 96}
+    },
+    {
+      "day": "Saturday",
+      "vibe": "Weekend mode: leisurely and indulgent-feeling",
+      "meals": [
+        {"type":"breakfast","time":"9:00 am","name":"Masala Omelette with Avocado Toast","description":"A fluffy three-egg masala omelette on sourdough with smashed avocado. Weekend breakfast, no guilt required.","kcal":420,"protein_g":26,"carbs_g":32,"fat_g":20,"tags":["high-protein","brunch","fusion"],"allergens":["eggs","gluten"],"recipe_search":"masala omelette avocado toast recipe"},
+        {"type":"lunch","time":"1:30 pm","name":"Chole Bhature (baked bhature)","description":"Spiced chickpea masala with lightly baked bhature — all the flavour, less of the oil. Saturday lunch done right.","kcal":520,"protein_g":22,"carbs_g":72,"fat_g":14,"tags":["Indian","vegetarian","indulgent"],"allergens":["gluten"],"recipe_search":"chole bhature baked recipe"},
+        {"type":"snack","time":"5:00 pm","name":"Watermelon & Feta Salad","description":"Juicy watermelon cubes with crumbled feta, fresh mint and a lime squeeze. Summer in a bowl.","kcal":160,"protein_g":6,"carbs_g":22,"fat_g":5,"tags":["Mediterranean","light","no-cook"],"allergens":["dairy"],"recipe_search":"watermelon feta salad recipe"},
+        {"type":"dinner","time":"9:00 pm","name":"Lamb Seekh Kebabs with Tzatziki","description":"Juicy minced lamb kebabs with warm spices, served with cooling tzatziki and a simple slaw. Dinner party energy on a Saturday.","kcal":480,"protein_g":40,"carbs_g":20,"fat_g":26,"tags":["fusion","high-protein","indulgent"],"allergens":["dairy"],"recipe_search":"lamb seekh kebab tzatziki recipe"}
+      ],
+      "totals": {"kcal": 1580, "protein_g": 94}
+    },
+    {
+      "day": "Sunday",
+      "vibe": "Easy, joyful, no-effort Sunday",
+      "meals": [
+        {"type":"breakfast","time":"9:00 am","name":"Poha with Sev & Lemon","description":"Flattened rice tossed with mustard seeds, curry leaves, turmeric and finished with crunchy sev and a squeeze of lemon. Sunday ease.","kcal":290,"protein_g":8,"carbs_g":52,"fat_g":6,"tags":["Indian","vegetarian","light"],"allergens":["gluten"],"recipe_search":"poha recipe with sev"},
+        {"type":"lunch","time":"1:30 pm","name":"Leftover Remix Bowl","description":"This day is designed to use what your cook prepped across the week — toss proteins and grains together with a dressing you love.","kcal":420,"protein_g":30,"carbs_g":44,"fat_g":12,"tags":["flexible","quick","no-cook"],"allergens":[],"recipe_search":"grain bowl assembly recipe"},
+        {"type":"snack","time":"5:00 pm","name":"Chaas (Spiced Buttermilk)","description":"Fresh buttermilk blended with roasted cumin, ginger, mint and a pinch of black salt. Cooling, digestive, perfect.","kcal":80,"protein_g":4,"carbs_g":8,"fat_g":2,"tags":["Indian","light","probiotic"],"allergens":["dairy"],"recipe_search":"chaas spiced buttermilk recipe"},
+        {"type":"dinner","time":"9:00 pm","name":"Dal Rice Aloo Ki Sabzi with Papad","description":"The meal that started it all. Yellow dal, fluffy rice, simple aloo sabzi, and a crispy papad with a drizzle of ghee. Home.","kcal":480,"protein_g":20,"carbs_g":72,"fat_g":12,"tags":["Indian","vegetarian","comfort","soul-food"],"allergens":[],"recipe_search":"dal rice aloo sabzi papad recipe"}
+      ],
+      "totals": {"kcal": 1270, "protein_g": 62}
+    }
+  ]
+};
+
+// ═══════════════════════════════════════════
+// SAVE TO GOOGLE SHEET
+// ═══════════════════════════════════════════
+async function saveToSheet(email, profile) {
+  if (!GOOGLE_SHEET_WEBHOOK || GOOGLE_SHEET_WEBHOOK === 'YOUR_APPS_SCRIPT_URL') return;
+  try {
+    await fetch(GOOGLE_SHEET_WEBHOOK, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        timestamp: new Date().toISOString(),
+        email,
+        profile: JSON.stringify(profile),
+      }),
+    });
+  } catch(e) {
+    console.warn('Sheet save failed (non-critical):', e);
+  }
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+</script>
+
+</body>
+</html>
