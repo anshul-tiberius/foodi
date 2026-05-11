@@ -11,7 +11,6 @@ export default async function handler(req, res) {
   try {
     const { system, messages, max_tokens } = req.body;
 
-    // If no messages, send a single empty user message to get the opening line
     const msgs = (messages && messages.length > 0)
       ? messages
       : [{ role: 'user', content: 'start' }];
@@ -24,7 +23,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5-20251001',
+        model: 'claude-sonnet-4-5',
         max_tokens: max_tokens || 1000,
         system,
         messages: msgs,
